@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="fr">
     <head>
         <meta charset="UTF-8">
@@ -23,10 +24,10 @@
                                 Connexion
                             </div>
                             <div class="card-body">
-                                <form>
+                                <form id="connexionForm">
                                     <div class="mb-3">
                                         <label for="choixSituation" class="form-label">Situation</label>
-                                        <select class="form-select" id="exampleFormControlSelect1">
+                                        <select class="form-select" id="inputSituation" required>
                                             <option value="etudiant">Etudiant</option>
                                             <option value="entreprise">Entreprise</option>
                                             <option value="pedagogique">Responsable pédagogique</option>
@@ -34,18 +35,14 @@
                                     </div> 
                                     <div class="mb-3">
                                         <label for="inputEmail" class="form-label">Adresse email</label>
-                                        <input type="email" class="form-control" id="inputEmail" aria-describedby="emailHelp">
+                                        <input type="email" class="form-control" id="inputEmail" aria-describedby="emailHelp" required>
                                         <div id="emailHelp" class="form-text">Nous ne partagerons jamais votre adresse email avec qui que ce soit.</div>
                                     </div>
                                     <div class="mb-3">
                                         <label for="inputPassword" class="form-label">Mot de passe</label>
-                                        <input type="password" class="form-control" id="inputPassword">
-                                    </div>                                   
-                                    <div class="mb-3 form-check">
-                                        <input type="checkbox" class="form-check-input" id="Check">
-                                        <label class="form-check-label" for="Check">Se souvenir de moi</label>
+                                        <input type="password" class="form-control" id="inputPassword" required>
                                     </div>
-                                    <button type="submit" class="btn btn-primary">Se connecter</button>
+                                    <button type="submit" class="btn btn-primary" id="connexionButton">Se connecter</button>
                                 </form>
                             </div>
                         </div>
