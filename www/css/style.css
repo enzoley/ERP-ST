@@ -7,3 +7,7 @@ body {
 .content {
     flex: 1;
 }
+
+.big-text{
+    font-size: 3.5em;
+}
