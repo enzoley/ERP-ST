@@ -11,3 +11,10 @@ body {
 .big-text{
     font-size: 3.5em;
 }
+
+.logo-connexion{
+    position: absolute;
+    width: 500px;
+    right: 0;
+    top: auto;
+}
