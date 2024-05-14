@@ -2,6 +2,7 @@ const express = require('express');
 const nodemailer = require('nodemailer');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+require('dotenv').config();
 
 const app = express();
 const port = 3000;
@@ -15,8 +16,8 @@ app.use(express.static('public'));
 const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-        user: 'votre-email@gmail.com',
-        pass: 'votre-mot-de-passe'
+        user: process.env.EMAIL,
+        pass: process.env.EMAIL_PASSWORD
     }
 });
 
@@ -25,7 +26,7 @@ app.post('/send-email', (req, res) => {
     const { nom, prenom, email, message } = req.body;
 
     const mailOptions = {
-        from: 'votre-email@gmail.com',
+        from: process.env.EMAIL,
         to: 'adresse-destination@example.com',
         subject: 'Nouveau message du formulaire de contact',
         text: `Nom: ${nom}\nPrénom: ${prenom}\nEmail: ${email}\nMessage: ${message}`
