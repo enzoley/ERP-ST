@@ -10,7 +10,7 @@ const port = 3000;
 // Middleware
 app.use(cors());
 app.use(bodyParser.json());
-app.use(express.static('public'));
+app.use(express.static('www'));
 
 // Nodemailer transporter configuration
 const transporter = nodemailer.createTransport({
@@ -21,13 +21,17 @@ const transporter = nodemailer.createTransport({
     }
 });
 
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'www', 'index.html'));
+  });
+
 // Route to handle form submission
 app.post('/send-email', (req, res) => {
     const { nom, prenom, email, message } = req.body;
 
     const mailOptions = {
         from: process.env.EMAIL,
-        to: 'adresse-destination@example.com',
+        to: 'manclaus9@gmail.com',
         subject: 'Nouveau message du formulaire de contact',
         text: `Nom: ${nom}\nPrénom: ${prenom}\nEmail: ${email}\nMessage: ${message}`
     };
