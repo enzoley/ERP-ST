@@ -25,3 +25,12 @@ body {
     width: 50%; 
     margin: 40px auto;
 }
+
+.btn-group-centered {
+    display: flex;
+    justify-content: center;
+}
+
+.btn-group {
+    margin: 5px;
+}
