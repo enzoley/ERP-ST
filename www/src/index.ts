@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     },
                     body: JSON.stringify({ connexionEmail, connexionPassword })
                 });
-
+                alert('test')
                 const data = await response.json();
 
                 if (response.ok) {
