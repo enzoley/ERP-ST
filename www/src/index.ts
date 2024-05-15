@@ -3,7 +3,11 @@ const connexionPassword = document.getElementById('inputPassword') as HTMLInputE
 const connexionButton = document.getElementById('connexionButton') as HTMLButtonElement;
 const connexionSituation = document.getElementById('inputSituation') as HTMLSelectElement;
 const connexionForm = document.getElementById('connexionForm') as HTMLFormElement;
+const inscription = document.getElementById('inscriptionButton') as HTMLButtonElement;
 
+inscription.addEventListener('click', () => {
+    alert('test')
+});
 
 document.addEventListener('DOMContentLoaded', () => {
 
