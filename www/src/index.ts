@@ -20,17 +20,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (email && password && situation) {
                 alert("Connexion réussie !");
-                if(situation == "etudiant") {
+                if (situation == "etudiant") {
                     window.location.href = "accueilEtudiant.html";
-                }else if (situation == "pedagogique") {
+                } else if (situation == "pedagogique") {
                     window.location.href = "accueilResponsablePedagogique.html";
-                }else{
+                } else if (situation == "entreprise") {
                     window.location.href = "accueilEntreprise.html";
                 }
             }
 
 
-            
+
         });
     }
 });
