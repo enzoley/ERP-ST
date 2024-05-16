@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     fetch('/check-login')
         .then(response => response.json())
-        .then(data => {
+        .then(async data => {
             if (data.loggedIn) {
                 const path = window.location.pathname;
                 const pageName = path.split('/').pop();
@@ -11,6 +11,20 @@ document.addEventListener('DOMContentLoaded', () => {
                     console.log('Logged in as:', data.user);
                 } else if ((pageName == 'accueilResponsablePedagogique.html' || pageName == 'suiviResponsablePedagogique.html' || pageName == 'visiteResp.html') && data.user.situation == 'pedagogique') {
                     console.log('Logged in as:', data.user);
+                } else if (pageName == 'index.html') {
+                    try {
+                        const response = await fetch('http://localhost:3000/logout', {
+                            method: 'POST',
+                            credentials: 'include'
+                        });
+                
+                        if (!response.ok) {
+                            alert('Une erreur est survenue lors de la déconnexion.');
+                        }
+                    } catch (error) {
+                        console.error('Erreur:', error);
+                        alert('Une erreur est survenue. Veuillez réessayer.');
+                    }
                 } else {
                     console.log('Vous n\'êtes pas autorisé à accéder à cette page');
                     const situation = data.user.situation;
