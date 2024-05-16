@@ -22,6 +22,7 @@
     "jsonwebtoken": "^9.0.2",
     "mysql": "^2.18.1",
     "mysql2": "^3.9.7",
+    "nodejs-nodemailer-outlook": "^1.2.4",
     "nodemailer": "^6.9.13",
     "sequelize": "^6.37.3"
   }

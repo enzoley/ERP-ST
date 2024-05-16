@@ -5,6 +5,9 @@ const path = require('path');
 const mysql = require('mysql');
 const bcrypt = require('bcryptjs');
 const session = require('express-session');
+const nodemailer = require('nodemailer');
+const { v4: uuidv4 } = require('uuid');
+const nodeoutlook = require('nodejs-nodemailer-outlook');
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -13,13 +16,11 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('www'));
 
-function isAuthenticated(req, res, next) {
-    if (req.session.user) {
-        next();
-    } else {
-        res.status(401).send('You need to log in to access this page');
-    }
-}
+const transporter = nodemailer.createTransport({
+    host: 'smtp-startechnormandy.alwaysdata.net',
+    port: 587,
+    secure: false
+});
 
 app.use(session({
     secret: process.env.SESSION_SECRET,
@@ -127,3 +128,32 @@ app.post('/logout', (req, res) => {
         }
     });
 });
+
+app.post('/reset', (req, res) => {
+    const { email, code, password } = req.body;
+
+    const sql = 'SELECT * FROM users WHERE email = ?';
+    db.query(sql, [email], (err, results) => {
+        if (err) throw err;
+
+        if (results.length === 0) {
+            return res.status(401).json({ message: 'Email incorrect' });
+        }
+
+        const user = results[0];
+
+        if (code != user.code) {
+            return res.status(401).json({ message: 'Code incorrect' });
+        }
+
+        const hashedPassword = bcrypt.hashSync(password, 10);
+
+        const sql = 'UPDATE users SET password = ? WHERE email = ?';
+
+        db.query(sql, [hashedPassword, email], (err, result) => {
+            if (err) throw err;
+            res.send('Password updated');
+        });
+    });
+});
+
