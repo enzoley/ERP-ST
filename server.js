@@ -1,13 +1,13 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 require('dotenv').config();
+const path = require('path');
 const mysql = require('mysql');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 
 const app = express();
 const port = process.env.PORT || 3000;
 
-// Middleware
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('www'));
@@ -70,20 +70,22 @@ app.delete('/user/:id', (req, res) => {
 });
 
 app.post('/login', (req, res) => {
-    const { email, password } = req.body;
+    const { email, password, situation } = req.body;
 
     const sql = 'SELECT * FROM users WHERE email = ?';
     db.query(sql, [email], (err, results) => {
         if (err) throw err;
 
         if (results.length === 0) {
-            return res.status(401).json({ message: 'Email or password incorrect' });
+            return res.status(401).json({ message: 'Email or password incorrect ! ' });
         }
 
         const user = results[0];
 
         if (!bcrypt.compareSync(password, user.password)) {
-            return res.status(401).json({ message: 'Email or password incorrect' });
+            return res.status(401).json({ message: 'Email or password incorrect ' });
+        } else if (situation != user.situation) {
+            return res.status(401).json({ message: 'Situation incorrecte' });
         }
 
         res.json({ message: 'Login successful', user: { id: user.id, username: user.username, email: user.email } });
