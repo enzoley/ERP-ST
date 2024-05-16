@@ -94,15 +94,15 @@ app.post('/login', (req, res) => {
         if (err) throw err;
 
         if (results.length === 0) {
-            return res.status(401).json({ message: 'Email or password incorrect ! ' });
+            return res.status(401).json({ message: 'Identifiants incorrects' });
         }
 
         const user = results[0];
 
         if (!bcrypt.compareSync(password, user.password)) {
-            return res.status(401).json({ message: 'Email or password incorrect ' });
+            return res.status(401).json({ message: 'Identifiants incorrects' });
         } else if (situation != user.situation) {
-            return res.status(401).json({ message: 'Situation incorrecte' });
+            return res.status(401).json({ message: 'Identifiants incorrects' });
         }
 
         req.session.user = { id: user.id, email: user.email, situation: user.situation };
