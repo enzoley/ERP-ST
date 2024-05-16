@@ -132,8 +132,9 @@ app.post('/reset', (req, res) => {
         }
 
         const user = results[0];
+        const hashedCode = bcrypt.hashSync(code, 10);
 
-        if (code != user.code) {
+        if (bcrypt.compareSync(hashedCode, user.code)) {
             return res.status(401).json({ message: 'Code incorrect' });
         }
 

@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             method: 'POST',
                             credentials: 'include'
                         });
-                
+
                         if (!response.ok) {
                             alert('Une erreur est survenue lors de la déconnexion.');
                         }
@@ -32,7 +32,6 @@ document.addEventListener('DOMContentLoaded', () => {
                         window.location.href = "accueilEtudiant.html";
                     } else if (situation == "entreprise") {
                         window.location.href = "accueilEntreprise.html";
-
                     } else {
                         window.location.href = "accueilResponsablePedagogique.html";
                     }
