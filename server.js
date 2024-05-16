@@ -5,9 +5,6 @@ const path = require('path');
 const mysql = require('mysql');
 const bcrypt = require('bcryptjs');
 const session = require('express-session');
-const nodemailer = require('nodemailer');
-const { v4: uuidv4 } = require('uuid');
-const nodeoutlook = require('nodejs-nodemailer-outlook');
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -15,12 +12,6 @@ const port = process.env.PORT || 3000;
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('www'));
-
-const transporter = nodemailer.createTransport({
-    host: 'smtp-startechnormandy.alwaysdata.net',
-    port: 587,
-    secure: false
-});
 
 app.use(session({
     secret: process.env.SESSION_SECRET,
