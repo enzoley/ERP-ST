@@ -4,6 +4,7 @@ require('dotenv').config();
 const path = require('path');
 const mysql = require('mysql');
 const bcrypt = require('bcryptjs');
+const session = require('express-session');
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -11,6 +12,21 @@ const port = process.env.PORT || 3000;
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('www'));
+
+function isAuthenticated(req, res, next) {
+    if (req.session.user) {
+        next();
+    } else {
+        res.status(401).send('You need to log in to access this page');
+    }
+}
+
+app.use(session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: false }
+}));
 
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'www', 'index.html'));
@@ -88,6 +104,26 @@ app.post('/login', (req, res) => {
             return res.status(401).json({ message: 'Situation incorrecte' });
         }
 
+        req.session.user = { id: user.id, email: user.email, situation: user.situation };
         res.json({ message: 'Login successful', user: { id: user.id, username: user.username, email: user.email } });
+    });
+});
+
+app.get('/check-login', (req, res) => {
+    if (req.session.user) {
+        res.json({ loggedIn: true, user: req.session.user });
+    } else {
+        res.json({ loggedIn: false });
+    }
+});
+
+app.post('/logout', (req, res) => {
+    req.session.destroy(err => {
+        if (err) {
+            console.error('Error during logout:', err);
+            return res.status(500).send('Could not log out.');
+        } else {
+            res.send('Logout successful');
+        }
     });
 });

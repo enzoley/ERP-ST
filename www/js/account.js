@@ -1,20 +1,20 @@
-async function checkAuth() {
-    try {
-        const response = await fetch('http://localhost:3000/protected');
-        if (response.status === 401) {
-            window.location.href = 'index.html';
-        } else if (response.ok) {
-            document.getElementById('content').innerText = await response.text();
-        } else {
-            alert('An error occurred. Please try again.');
-        }
-    } catch (error) {
-        console.error('Error:', error);
-        alert('An error occurred. Please try again.');
-    }
-}
-
-window.onload = checkAuth;
+document.addEventListener('DOMContentLoaded', () => {
+    fetch('/check-login')
+        .then(response => response.json())
+        .then(data => {
+            if (data.loggedIn) {
+                const path = window.location.pathname;
+                const pageName = path.split('/').pop();
+                console.log('Logged in as:', data.user);
+            } else {
+                console.log('Not logged in');
+                window.location.href = 'index.html';
+            }
+        })
+        .catch(error => {
+            console.error('Error checking login status:', error);
+        });
+});
 
 document.getElementById('logoutButton').addEventListener('click', async function (event) {
     event.preventDefault();
@@ -26,6 +26,7 @@ document.getElementById('logoutButton').addEventListener('click', async function
         });
 
         if (response.ok) {
+            alert('Déconnexion réussie')
             window.location.href = 'index.html';
         } else {
             alert('Une erreur est survenue lors de la déconnexion.');
