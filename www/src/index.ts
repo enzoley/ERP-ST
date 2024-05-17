@@ -6,7 +6,7 @@ const connexionForm = document.getElementById('connexionForm') as HTMLFormElemen
 const inscription = document.getElementById('inscriptionButton') as HTMLButtonElement;
 
 inscription.addEventListener('click', () => {
-    window.location.href = "resetPassword.html";
+    window.location.href = "resetPassword2.html";
 });
 
 document.addEventListener('DOMContentLoaded', () => {

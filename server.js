@@ -132,9 +132,8 @@ app.post('/reset', (req, res) => {
         }
 
         const user = results[0];
-        const hashedCode = bcrypt.hashSync(code, 10);
 
-        if (bcrypt.compareSync(hashedCode, user.code)) {
+        if (code != user.code) {
             return res.status(401).json({ message: 'Code incorrect' });
         }
 
@@ -145,7 +144,35 @@ app.post('/reset', (req, res) => {
         db.query(sql, [hashedPassword, email], (err, result) => {
             if (err) throw err;
             res.send('Password updated');
+            const sql = 'UPDATE users SET code = ? WHERE email = ?';
+            db.query(sql, [null, email], (err, result) => {
+                if (err) throw err;
+            });
         });
     });
 });
+
+app.post('/code', (req, res) => {
+    const { email } = req.body;
+
+    const sql = 'SELECT * FROM users WHERE email = ?';
+    db.query(sql, [email], (err, results) => {
+        if (err) throw err;
+
+        if (results.length === 0) {
+            return res.status(401).json({ message: 'Email incorrect' });
+        }
+
+        const user = results[0];
+        const code = Math.floor(100000 + Math.random() * 900000);
+
+        const sql = 'UPDATE users SET code = ? WHERE email = ?';
+
+        db.query(sql, [code, email], (err, result) => {
+            if (err) throw err;
+            res.send('Code updated');
+        });
+    });
+});
+
 
