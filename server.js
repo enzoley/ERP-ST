@@ -94,10 +94,11 @@ app.post('/login', (req, res) => {
             return res.status(401).json({ message: 'Identifiants incorrects' });
         } else if (situation != user.situation) {
             return res.status(401).json({ message: 'Identifiants incorrects' });
+        } else {
+            req.session.user = { id: user.id, email: user.email, situation: user.situation };
+            res.json({ message: 'Login successful', user: { id: user.id, username: user.username, email: user.email } });
         }
 
-        req.session.user = { id: user.id, email: user.email, situation: user.situation };
-        res.json({ message: 'Login successful', user: { id: user.id, username: user.username, email: user.email } });
     });
 });
 
@@ -135,20 +136,21 @@ app.post('/reset', (req, res) => {
 
         if (code != user.code) {
             return res.status(401).json({ message: 'Code incorrect' });
+        } else {
+            const hashedPassword = bcrypt.hashSync(password, 10);
+
+            const sql = 'UPDATE users SET password = ? WHERE email = ?';
+
+            db.query(sql, [hashedPassword, email], (err, result) => {
+                if (err) throw err;
+                res.send('Password updated');
+                const sql = 'UPDATE users SET code = ? WHERE email = ?';
+                db.query(sql, [null, email], (err, result) => {
+                    if (err) throw err;
+                });
+            });
         }
 
-        const hashedPassword = bcrypt.hashSync(password, 10);
-
-        const sql = 'UPDATE users SET password = ? WHERE email = ?';
-
-        db.query(sql, [hashedPassword, email], (err, result) => {
-            if (err) throw err;
-            res.send('Password updated');
-            const sql = 'UPDATE users SET code = ? WHERE email = ?';
-            db.query(sql, [null, email], (err, result) => {
-                if (err) throw err;
-            });
-        });
     });
 });
 
