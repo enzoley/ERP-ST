@@ -1,4 +1,5 @@
-document.addEventListener('DOMContentLoaded', () => {
+function verifyAuth() {
+
     fetch('/check-login')
         .then(response => response.json())
         .then(async data => {
@@ -44,7 +45,10 @@ document.addEventListener('DOMContentLoaded', () => {
         .catch(error => {
             console.error('Error checking login status:', error);
         });
-});
+
+}
+
+setInterval(verifyAuth, 100);
 
 document.getElementById('logoutButton').addEventListener('click', async function (event) {
     event.preventDefault();
