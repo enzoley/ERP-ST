@@ -218,4 +218,40 @@ app.post('/delete', (req, res) => {
     });
 });
 
+app.get('/etu', (req, res) => {
+    const sql = 'SELECT * FROM users WHERE situation = "etudiant"';
+    db.query(sql, (err, results) => {
+        if (err) {
+            console.error('Erreur lors de l\'exécution de la requête :', err);
+            res.status(500).send('Erreur serveur');
+            return;
+        }
+        res.json(results);
+    });
+});
+
+app.get('/resp', (req, res) => {
+    const sql = 'SELECT * FROM users WHERE situation = "pedagogique"';
+    db.query(sql, (err, results) => {
+        if (err) {
+            console.error('Erreur lors de l\'exécution de la requête :', err);
+            res.status(500).send('Erreur serveur');
+            return;
+        }
+        res.json(results);
+    });
+});
+
+app.get('/ent', (req, res) => {
+    const sql = 'SELECT * FROM users WHERE situation = "entreprise"';
+    db.query(sql, (err, results) => {
+        if (err) {
+            console.error('Erreur lors de l\'exécution de la requête :', err);
+            res.status(500).send('Erreur serveur');
+            return;
+        }
+        res.json(results);
+    });
+});
+
 

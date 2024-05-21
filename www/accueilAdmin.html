@@ -97,6 +97,34 @@
                     </div>
                 </div>
             </div>
+            <div class="container mt-5">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h2>Créer un suivi</h2>
+                            </div>
+                            <div class="card-body">
+                                <form id="createSuivi">
+                                    <div class="mb-3">
+                                        <label for="selectorEtu" class="form-label">Etudiant</label>
+                                        <select id="selectorEtu"></select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="selectorResp" class="form-label">Responsable Pédagogique</label>
+                                        <select id="selectorResp"></select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="selectorEnt" class="form-label">Entreprise</label>
+                                        <select id="selectorEnt"></select>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary" id="deleteButton">Créer suivi</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 </body>
 <footer class="bg-dark text-light">
@@ -117,5 +145,6 @@
 
 <script src="js/adminCreate.js"></script>
 <script src="js/adminDelete.js"></script>
+<script src="js/adminSuivi.js"></script>
 
 </html>
