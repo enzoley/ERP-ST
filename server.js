@@ -300,7 +300,7 @@ app.post('/create-suivi', (req, res) => {
                     }
                 });
 
-                current.setMonth(current.getMonth() + 1); // Move to the next month
+                current.setMonth(current.getMonth() + 1);
             }
             res.json({ message: 'Suivi créé' });
         }
