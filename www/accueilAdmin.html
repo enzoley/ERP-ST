@@ -108,15 +108,53 @@
                                 <form id="createSuivi">
                                     <div class="mb-3">
                                         <label for="selectorEtu" class="form-label">Etudiant</label>
-                                        <select id="selectorEtu"></select>
+                                        <select id="selectorEtu" required></select>
                                     </div>
                                     <div class="mb-3">
                                         <label for="selectorResp" class="form-label">Responsable Pédagogique</label>
-                                        <select id="selectorResp"></select>
+                                        <select id="selectorResp" required></select>
                                     </div>
                                     <div class="mb-3">
                                         <label for="selectorEnt" class="form-label">Entreprise</label>
-                                        <select id="selectorEnt"></select>
+                                        <select id="selectorEnt" required></select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="startMonth">Mois de début :</label>
+                                        <select id="startMonth" required>
+                                            <option value="0">Janvier</option>
+                                            <option value="1">Février</option>
+                                            <option value="2">Mars</option>
+                                            <option value="3">Avril</option>
+                                            <option value="4">Mai</option>
+                                            <option value="5">Juin</option>
+                                            <option value="6">Juillet</option>
+                                            <option value="7">Août</option>
+                                            <option value="8">Septembre</option>
+                                            <option value="9">Octobre</option>
+                                            <option value="10">Novembre</option>
+                                            <option value="11">Décembre</option>
+                                        </select>
+                                        <label for="startYear">Année de début :</label>
+                                        <select id="startYear" required></select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="endMonth">Mois de Fin :</label>
+                                        <select id="endMonth" required>
+                                            <option value="0">Janvier</option>
+                                            <option value="1">Février</option>
+                                            <option value="2">Mars</option>
+                                            <option value="3">Avril</option>
+                                            <option value="4">Mai</option>
+                                            <option value="5">Juin</option>
+                                            <option value="6">Juillet</option>
+                                            <option value="7">Août</option>
+                                            <option value="8">Septembre</option>
+                                            <option value="9">Octobre</option>
+                                            <option value="10">Novembre</option>
+                                            <option value="11">Décembre</option>
+                                        </select>
+                                        <label for="endYear">Année de début :</label>
+                                        <select id="endYear" required></select>
                                     </div>
                                     <button type="submit" class="btn btn-primary" id="deleteButton">Créer suivi</button>
                                 </form>

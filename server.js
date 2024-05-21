@@ -254,4 +254,51 @@ app.get('/ent', (req, res) => {
     });
 });
 
+app.post('/create-suivi', (req, res) => {
+    const { idEtu, idResp, idEnt, dm, dy, fm, fy, nomEtu } = req.body;
+    const debut = new Date(dy, dm);
+    const fin = new Date(fy, fm);
 
+    const num = nomEtu;
+
+    const sql = `
+    CREATE TABLE IF NOT EXISTS suivis_${num} (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        mois VARCHAR(30),
+        annee VARCHAR(10),
+        taches TEXT,
+        commentaires TEXT,
+        idEtu INT,
+        idResp INT,
+        idEnt INT,
+        FOREIGN KEY (idEtu) REFERENCES users(id),
+        FOREIGN KEY (idResp) REFERENCES users(id),
+        FOREIGN KEY (idEnt) REFERENCES users(id)
+    );
+`;
+    db.query(sql, [idEtu, idResp, idEnt, debut, fin, nomEtu], (err, result) => {
+        if (err) {
+            console.error('Erreur lors de l\'exécution de la requête :', err);
+            res.status(500).send('Erreur serveur');
+            return;
+        } else {
+            let current = new Date(debut);
+            while (current <= fin) {
+                const mois = current.getMonth();
+                const annee = current.getFullYear();
+
+                const insertSQL = `INSERT INTO suivis_${num} (mois, annee, taches, commentaires, idEtu, idResp, idEnt) VALUES (?, ?, ?, ?, ?, ?, ?)`;
+                db.query(insertSQL, [mois, annee, '', '', idEtu, idResp, idEnt], (err) => {
+                    if (err) {
+                        console.error('Erreur lors de l\'insertion des données :', err);
+                        res.status(500).send('Erreur serveur');
+                        return;
+                    }
+                });
+
+                current.setMonth(current.getMonth() + 1); // Move to the next month
+            }
+            res.json({ message: 'Suivi créé' });
+        }
+    });
+});
