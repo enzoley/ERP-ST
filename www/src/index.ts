@@ -36,6 +36,8 @@ document.addEventListener('DOMContentLoaded', () => {
                         window.location.href = "accueilResponsablePedagogique.html";
                     } else if (situation == "entreprise") {
                         window.location.href = "accueilEntreprise.html";
+                    } else {
+                        window.location.href = "accueilAdmin.html";
                     }
                 } else {
                     alert(data.message);

@@ -9,6 +9,18 @@ const session = require('express-session');
 const app = express();
 const port = process.env.PORT || 3000;
 
+function generateRandomString(length) {
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let result = '';
+    const charactersLength = characters.length;
+
+    for (let i = 0; i < length; i++) {
+        result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+
+    return result;
+}
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('www'));
@@ -41,13 +53,14 @@ db.connect((err) => {
 });
 
 app.post('/register', (req, res) => {
-    const { username, email, password } = req.body;
+    const { email, nom, prenom, situation } = req.body;
+    const password = generateRandomString(10);
     const hashedPassword = bcrypt.hashSync(password, 10);
 
-    const sql = 'INSERT INTO users (username, email, password) VALUES (?, ?, ?)';
-    db.query(sql, [username, email, hashedPassword], (err, result) => {
+    const sql = 'INSERT INTO users (situation, email, password, nom, prenom) VALUES (?, ?, ?, ?, ?)';
+    db.query(sql, [situation, email, hashedPassword, nom.toLowerCase(), prenom.toLowerCase()], (err, result) => {
         if (err) throw err;
-        res.send('User registered');
+        res.json({ message: 'Register successful', user: { email: email } });
     });
 });
 

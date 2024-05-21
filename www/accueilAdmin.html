@@ -4,8 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Formulaire de partenariat | STN</title>
-    <script src="js/account.js" defer></script>
+    <title>Livret de suivi digital | STN</title>
     <link rel="icon" type="image/png" href="img/stn.png">
     <link rel="stylesheet" href="css/style.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -15,28 +14,11 @@
 <body>
     <navbar class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
-            <a class="navbar-brand" href="accueilEntreprise.html">Livret de suivi</a>
+            <a class="navbar-brand" href="#">Livret de suivi</a>
             <div class="collapse navbar-collapse">
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="accueilEntreprise.html">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="suiviEntreprise.html">Suivi</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" href="#">Partenariat</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="rappelEntreprise.html">Rappels</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="visitesEntreprise.html">Visites</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="contactEntreprise.html">Contact</a>
-                    </li>
-                </ul>
+                <div class="center">
+                    <p>Page Admin</p>
+                </div>
             </div>
             <div class="collapse navbar-collapse justify-content-end">
                 <ul class="navbar-nav ml-auto">
@@ -52,24 +34,43 @@
             <div class="row">
                 <div class="col-12">
                     <div class="mt-5">
-                        <h1 class="text-center">Formulaire de partenariat</h1>
-                        <div class="mt-5">
-                            <form class="partenariat">
+                        <h1 class="text-center">Page Admin</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container mt-5">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h2>Créer un compte</h2>
+                        </div>
+                        <div class="card-body">
+                            <form id="create">
                                 <div class="mb-3">
-
+                                    <label for="inputEmail" class="form-label">Adresse email</label>
+                                    <input type="email" class="form-control" id="inputEmail"
+                                        aria-describedby="emailHelp" required>
                                 </div>
                                 <div class="mb-3">
-
+                                    <label for="inputNom" class="form-label">Nom</label>
+                                    <input type="text" class="form-control" id="inputNom" required>
                                 </div>
                                 <div class="mb-3">
-
+                                    <label for="inputPrenom" class="form-label">Prénom</label>
+                                    <input type="text" class="form-control" id="inputPrenom" required>
                                 </div>
                                 <div class="mb-3">
-
+                                    <label for="inputSituation" class="form-label">Situation</label>
+                                    <select class="form-select" id="inputSituation" required>
+                                        <option value="etudiant">Etudiant</option>
+                                        <option value="entreprise">Entreprise</option>
+                                        <option value="pedagogique">Responsable pédagogique</option>
+                                        <option value="autre">Autre</option>
+                                    </select>
                                 </div>
-                                <div class="mb-3">
-
-                                </div>
+                                <button type="submit" class="btn btn-primary" id="createButton">Créer</button>
                             </form>
                         </div>
                     </div>
@@ -90,9 +91,10 @@
     </div>
 
 </footer>
-<script src="app.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
     crossorigin="anonymous"></script>
+
+<script src="js/admin.js"></script>
 
 </html>
