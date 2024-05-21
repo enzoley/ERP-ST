@@ -12,6 +12,8 @@ function verifyAuth() {
                     console.log('Logged in as:', data.user);
                 } else if ((pageName == 'accueilResponsablePedagogique.html' || pageName == 'suiviResponsablePedagogique.html' || pageName == 'visiteResp.html') && data.user.situation == 'pedagogique') {
                     console.log('Logged in as:', data.user);
+                } else if ((pageName == 'accueilAdmin.html' && data.user.situation == 'autre')) {
+                    console.log('Logged in as:', data.user);
                 } else if (pageName == 'index.html') {
                     try {
                         const response = await fetch('http://localhost:3000/logout', {
@@ -33,6 +35,8 @@ function verifyAuth() {
                         window.location.href = "accueilEtudiant.html";
                     } else if (situation == "entreprise") {
                         window.location.href = "accueilEntreprise.html";
+                    } else if (situation == "autre") {
+                        window.location.href = "index.html";
                     } else {
                         window.location.href = "accueilResponsablePedagogique.html";
                     }

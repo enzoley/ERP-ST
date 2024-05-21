@@ -209,11 +209,15 @@ app.post('/delete', (req, res) => {
         if (results.length === 0) {
             return res.status(401).json({ message: 'Email incorrect' });
         } else {
-            const sql = 'DELETE FROM users WHERE email = ?';
-            db.query(sql, [email], (err, result) => {
-                if (err) throw err;
-                res.json({ message: 'Delete successful', user: { email: email } });
-            });
+            if (results[0].situation != "autre") {
+                const sql = 'DELETE FROM users WHERE email = ?';
+                db.query(sql, [email], (err, result) => {
+                    if (err) throw err;
+                    res.json({ message: 'Delete successful', user: { email: email } });
+                });
+            } else {
+                return res.status(401).json({ message: "Suppression d'un admin impossible" });
+            }
         }
     });
 });
