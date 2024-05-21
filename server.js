@@ -57,10 +57,19 @@ app.post('/register', (req, res) => {
     const password = generateRandomString(10);
     const hashedPassword = bcrypt.hashSync(password, 10);
 
-    const sql = 'INSERT INTO users (situation, email, password, nom, prenom) VALUES (?, ?, ?, ?, ?)';
-    db.query(sql, [situation, email, hashedPassword, nom.toLowerCase(), prenom.toLowerCase()], (err, result) => {
+    const verif = 'SELECT * FROM users WHERE email = ?';
+    db.query(verif, [email], (err, results) => {
         if (err) throw err;
-        res.json({ message: 'Register successful', user: { email: email } });
+
+        if (results.length > 0) {
+            return res.status(401).json({ message: 'Email déjà utilisé' });
+        } else {
+            const sql = 'INSERT INTO users (situation, email, password, nom, prenom) VALUES (?, ?, ?, ?, ?)';
+            db.query(sql, [situation, email, hashedPassword, nom.toLowerCase(), prenom.toLowerCase()], (err, result) => {
+                if (err) throw err;
+                res.json({ message: 'Register successful', user: { email: email } });
+            });
+        }
     });
 });
 
