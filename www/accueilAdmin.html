@@ -76,8 +76,28 @@
                     </div>
                 </div>
             </div>
+            <div class="container mt-5">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h2>Supprimer un compte</h2>
+                            </div>
+                            <div class="card-body">
+                                <form id="delete">
+                                    <div class="mb-3">
+                                        <label for="inputDeleteEmail" class="form-label">Adresse email</label>
+                                        <input type="email" class="form-control" id="inputDeleteEmail"
+                                            aria-describedby="emailHelp" required>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary" id="deleteButton">Supprimer</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
 </body>
 <footer class="bg-dark text-light">
     <div class="container">
@@ -95,6 +115,7 @@
     integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
     crossorigin="anonymous"></script>
 
-<script src="js/admin.js"></script>
+<script src="js/adminCreate.js"></script>
+<script src="js/adminDelete.js"></script>
 
 </html>

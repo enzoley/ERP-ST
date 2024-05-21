@@ -199,4 +199,23 @@ app.post('/code', (req, res) => {
     });
 });
 
+app.post('/delete', (req, res) => {
+    const { email } = req.body;
+
+    const sql = 'SELECT * FROM users WHERE email = ?';
+    db.query(sql, [email], (err, results) => {
+        if (err) throw err;
+
+        if (results.length === 0) {
+            return res.status(401).json({ message: 'Email incorrect' });
+        } else {
+            const sql = 'DELETE FROM users WHERE email = ?';
+            db.query(sql, [email], (err, result) => {
+                if (err) throw err;
+                res.json({ message: 'Delete successful', user: { email: email } });
+            });
+        }
+    });
+});
+
 
