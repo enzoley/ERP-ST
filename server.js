@@ -309,7 +309,6 @@ app.post('/create-suivi', (req, res) => {
 
 app.post('/delete-suivi', (req, res) => {
     const { nomEtu } = req.body;
-    console.log(nomEtu);
 
     if (!nomEtu) {
         return res.status(400).json({ message: 'Nom de l\'étudiant manquant' });
