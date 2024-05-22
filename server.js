@@ -324,3 +324,34 @@ app.post('/delete-suivi', (req, res) => {
     });
 });
 
+app.post('/partenariat', (req, res) => {
+    const { email } = req.body;
+
+    if (!email) {
+        return res.status(400).json({ message: 'Email manquant' });
+    }
+
+    const sql = 'SELECT * FROM users WHERE email = ?';
+    db.query(sql, [email], (err, results) => {
+        if (err) {
+            console.error('Erreur lors de l\'exécution de la requête :', err);
+            return res.status(500).send('Erreur serveur');
+        }
+        if (results.length === 0) {
+            return res.status(401).json({ message: 'Email incorrect' });
+        }
+        if (results[0].partenariat == 1) {
+            return res.status(401).json({ message: 'Partenariat déjà existant' });
+        } else {
+            const sql = 'UPDATE users SET partenariat = 1 WHERE email = ?';
+            db.query(sql, [email], (err, result) => {
+                if (err) {
+                    console.error('Erreur lors de l\'exécution de la requête :', err);
+                    return res.status(500).send('Erreur serveur');
+                }
+                res.json({ message: 'Partenariat ajouté' });
+            });
+        }
+    });
+});
+
