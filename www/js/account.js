@@ -8,7 +8,7 @@ function verifyAuth() {
                 const pageName = path.split('/').pop();
                 if ((pageName == 'accueilEtudiant.html' || pageName == 'contactEtudiant.html' || pageName == 'rappelEtudiant.html' || pageName == 'suiviEtudiant.html' || pageName == 'visiteEtudiant.html') && data.user.situation == 'etudiant') {
                     console.log('Logged in as:', data.user);
-                } else if ((pageName == 'accueilEntreprise.html' || pageName == 'contactEntreprise.html' || pageName == 'rappelEntreprise.html' || pageName == 'suiviEnteprise.html' || pageName == 'visiteEntreprise.html' || pageName == 'partenariat.html') && data.user.situation == 'entreprise') {
+                } else if ((pageName == 'accueilEntreprise.html' || pageName == 'contactEntreprise.html' || pageName == 'rappelEntreprise.html' || pageName == 'suiviEntreprise.html' || pageName == 'visitesEntreprise.html' || pageName == 'partenariat.html') && data.user.situation == 'entreprise') {
                     console.log('Logged in as:', data.user);
                 } else if ((pageName == 'accueilResponsablePedagogique.html' || pageName == 'suiviResponsablePedagogique.html' || pageName == 'visiteResp.html') && data.user.situation == 'pedagogique') {
                     console.log('Logged in as:', data.user);
