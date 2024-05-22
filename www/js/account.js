@@ -6,11 +6,11 @@ function verifyAuth() {
             if (data.loggedIn) {
                 const path = window.location.pathname;
                 const pageName = path.split('/').pop();
-                if ((pageName == 'accueilEtudiant.html' || pageName == 'contactEtudiant.html' || pageName == 'rappelEtudiant.html' || pageName == 'suiviEtudiant.html' || pageName == 'visiteEtudiant.html') && data.user.situation == 'etudiant') {
+                if ((pageName == 'contactEtudiant.html' || pageName == 'rappelEtudiant.html' || pageName == 'suiviEtudiant.html' || pageName == 'visiteEtudiant.html') && data.user.situation == 'etudiant') {
                     console.log('Logged in as:', data.user);
-                } else if ((pageName == 'accueilEntreprise.html' || pageName == 'contactEntreprise.html' || pageName == 'rappelEntreprise.html' || pageName == 'suiviEntreprise.html' || pageName == 'visitesEntreprise.html' || pageName == 'partenariat.html') && data.user.situation == 'entreprise') {
+                } else if ((pageName == 'contactEntreprise.html' || pageName == 'rappelEntreprise.html' || pageName == 'suiviEntreprise.html' || pageName == 'visitesEntreprise.html' || pageName == 'partenariat.html') && data.user.situation == 'entreprise') {
                     console.log('Logged in as:', data.user);
-                } else if ((pageName == 'accueilResponsablePedagogique.html' || pageName == 'suiviResponsablePedagogique.html' || pageName == 'visiteResp.html') && data.user.situation == 'pedagogique') {
+                } else if ((pageName == 'suiviResponsablePedagogique.html' || pageName == 'visiteResp.html') && data.user.situation == 'pedagogique') {
                     console.log('Logged in as:', data.user);
                 } else if ((pageName == 'accueilAdmin.html' && data.user.situation == 'autre')) {
                     console.log('Logged in as:', data.user);
@@ -32,13 +32,13 @@ function verifyAuth() {
                     console.log('Vous n\'êtes pas autorisé à accéder à cette page');
                     const situation = data.user.situation;
                     if (situation == "etudiant") {
-                        window.location.href = "accueilEtudiant.html";
+                        window.location.href = "suiviEtudiant.html";
                     } else if (situation == "entreprise") {
-                        window.location.href = "accueilEntreprise.html";
+                        window.location.href = "suiviEntreprise.html";
                     } else if (situation == "autre") {
                         window.location.href = "index.html";
                     } else {
-                        window.location.href = "accueilResponsablePedagogique.html";
+                        window.location.href = "suiviResponsablePedagogique.html";
                     }
                 }
             } else {

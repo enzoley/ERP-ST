@@ -31,11 +31,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (response.ok) {
                     alert('Connexion réussie');
                     if (situation == "etudiant") {
-                        window.location.href = "accueilEtudiant.html";
+                        window.location.href = "suiviEtudiant.html";
                     } else if (situation == "pedagogique") {
-                        window.location.href = "accueilResponsablePedagogique.html";
+                        window.location.href = "suiviResponsablePedagogique.html";
                     } else if (situation == "entreprise") {
-                        window.location.href = "accueilEntreprise.html";
+                        window.location.href = "suiviEntreprise.html";
                     } else {
                         window.location.href = "accueilAdmin.html";
                     }
