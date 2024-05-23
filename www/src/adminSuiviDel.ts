@@ -44,5 +44,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 alert('Une erreur est survenue. Veuillez réessayer.');
             }
         });
+        window.location.reload();
     }
 });

@@ -17,7 +17,6 @@ document.addEventListener('DOMContentLoaded', () => {
             const email = connexionEmail.value;
             const password = connexionPassword.value;
             const situation = connexionSituation.value;
-            console.log(password);
             try {
                 const response = await fetch('http://localhost:3000/login', {
                     method: 'POST',

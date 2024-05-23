@@ -99,5 +99,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
         });
+        window.location.reload();
     }
 });

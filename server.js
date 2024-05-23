@@ -465,3 +465,29 @@ app.post('/etu-ent', (req, res) => {
     });
 });
 
+app.post('/update-suivi', (req, res) => {
+    const { type, periode, text, nomEtu } = req.body;
+    const month = periode.split(' ')[0];
+    const year = periode.split(' ')[1];
+    console.log(type, periode, text, nomEtu);
+    if (type === 'tache') {
+        const sql = `UPDATE suivis_${nomEtu} SET taches = ? WHERE mois = ? AND annee = ?`;
+        db.query(sql, [text, month, year], (err, result) => {
+            if (err) {
+                console.error('Erreur lors de l\'exécution de la requête :', err);
+                return res.status(500).send('Erreur serveur');
+            }
+            res.json({ message: 'Tâches mises à jour' });
+        });
+    } else if (type === 'commentaire') {
+        const sql = `UPDATE suivis_${nomEtu} SET commentaires = ? WHERE mois = ? AND annee = ?`;
+        db.query(sql, [text, month, year], (err, result) => {
+            if (err) {
+                console.error('Erreur lors de l\'exécution de la requête :', err);
+                return res.status(500).send('Erreur serveur');
+            }
+            res.json({ message: 'Commentaires mis à jour' });
+        });
+    }
+});
+

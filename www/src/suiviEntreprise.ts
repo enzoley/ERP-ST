@@ -1,5 +1,10 @@
 const suiviDivEnt = document.getElementById('suivi') as HTMLDivElement;
 const etuSelectorEnt = document.getElementById('selectEtu') as HTMLSelectElement;
+const ajoutForm = document.getElementById('ajoutForm') as HTMLFormElement;
+const inputType = document.getElementById('inputType') as HTMLSelectElement;
+const inputPeriode = document.getElementById('inputPeriode') as HTMLSelectElement;
+const inputText = document.getElementById('inputText') as HTMLTextAreaElement;
+const ajoutBouton = document.getElementById('ajoutButton') as HTMLButtonElement;
 
 function month3(mois: number) {
     switch (mois) {
@@ -67,6 +72,8 @@ async function loadEtu2() {
 etuSelectorEnt.addEventListener("change", loadSuiviEnt);
 
 function loadSuiviEnt() {
+    inputPeriode.innerHTML = "";
+    inputText.value = "";
     suiviDivEnt.innerHTML = "";
     const etu = etuSelectorEnt.value;
     const etuName = etu.split(' ').join('');
@@ -83,6 +90,10 @@ function loadSuiviEnt() {
             suivi.forEach((suivi: { id: string; mois: string; annee: string; taches: string; commentaires: string; idEtu: string, idResp: string, idEnt: string }) => {
                 const moisInt = parseInt(suivi.mois);
                 const monthName = month3(moisInt);
+                const option = document.createElement('option');
+                option.value = suivi.mois + ' ' + suivi.annee;
+                option.textContent = monthName + ' ' + suivi.annee;
+                inputPeriode.appendChild(option);
                 const suiviCard = document.createElement('div');
                 suiviCard.classList.add('card', 'mb-5');
                 suiviCard.innerHTML = `
@@ -99,6 +110,36 @@ function loadSuiviEnt() {
                 suiviDivEnt.appendChild(suiviCard);
             });
         });
+
 }
 
+
 loadEtu2();
+
+
+ajoutBouton.addEventListener('click', async () => {
+    const nameEtu = etuSelectorEnt.options[etuSelectorEnt.selectedIndex].text.split(' ').join('');
+    const type = inputType.value;
+    const periode = inputPeriode.value;
+    const text = inputText.value;
+    try {
+        const response = await fetch('http://localhost:3000/update-suivi', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ type, periode, text, nomEtu: nameEtu })
+        });
+        const data = await response.json();
+
+        if (response.ok) {
+            alert('Ajout réussi');
+        } else {
+            alert(data.message);
+        }
+    } catch (error) {
+        console.error('Erreur :', error);
+        alert('Une erreur est survenue. Veuillez réessayer.');
+    }
+    window.location.reload();
+});
