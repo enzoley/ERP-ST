@@ -333,7 +333,14 @@ app.post('/create-suivi', (req, res) => {
                     console.error('Erreur lors de l\'exécution de la requête :', err);
                     return res.status(500).send('Erreur serveur');
                 }
-                res.json({ message: 'Suivi créé' });
+                const sql = 'INSERT INTO etu_to_ent (idEtu, idEnt) VALUES (?, ?)';
+                db.query(sql, [idEtu, idEnt], (err, result) => {
+                    if (err) {
+                        console.error('Erreur lors de l\'exécution de la requête :', err);
+                        return res.status(500).send('Erreur serveur');
+                    }
+                    res.json({ message: 'Suivi créé' });
+                });
             });
         }
     });
@@ -404,6 +411,35 @@ app.post('/etu-resp', (req, res) => {
     const { idResp } = req.body;
     const sql = 'SELECT idEtu FROM etu_to_resp WHERE idResp = ?';
     db.query(sql, [idResp], async (err, results) => {
+        if (err) {
+            console.error('Erreur lors de l\'exécution de la requête :', err);
+            return res.status(500).send('Erreur serveur');
+        }
+        let l = [];
+        const promises = results.map(result => {
+            return new Promise((resolve, reject) => {
+                const sql = 'SELECT * FROM users WHERE id = ?';
+                db.query(sql, [result.idEtu], (err, queryResults) => {
+                    if (err) {
+                        console.error('Erreur lors de l\'exécution de la requête :', err);
+                        reject('Erreur serveur');
+                    } else {
+                        const name = queryResults[0].nom + " " + queryResults[0].prenom;
+                        resolve(name);
+                    }
+                });
+            });
+        });
+        l = await Promise.all(promises);
+        console.log(l);
+        res.json(l);
+    });
+});
+
+app.post('/etu-ent', (req, res) => {
+    const { idEnt } = req.body;
+    const sql = 'SELECT idEtu FROM etu_to_ent WHERE idEnt = ?';
+    db.query(sql, [idEnt], async (err, results) => {
         if (err) {
             console.error('Erreur lors de l\'exécution de la requête :', err);
             return res.status(500).send('Erreur serveur');
