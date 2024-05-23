@@ -88,6 +88,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 if (response.ok) {
                     alert('Suivi créé');
+                    window.location.reload();
                 } else {
                     const errorData = await response.json();
                     console.error('Erreur :', errorData);
@@ -99,6 +100,5 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
         });
-        window.location.reload();
     }
 });

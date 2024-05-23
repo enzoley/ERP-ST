@@ -299,9 +299,13 @@ app.post('/create-suivi', (req, res) => {
         idEtu INT,
         idResp INT,
         idEnt INT,
+        idResp2 INT,
+        idResp3 INT,
         FOREIGN KEY (idEtu) REFERENCES users(id),
         FOREIGN KEY (idResp) REFERENCES users(id),
-        FOREIGN KEY (idEnt) REFERENCES users(id)
+        FOREIGN KEY (idEnt) REFERENCES users(id),
+        FOREIGN KEY (idResp2) REFERENCES users(id),
+        FOREIGN KEY (idResp3) REFERENCES users(id)
     );
 `;
     db.query(sql, [idEtu, idResp, idEnt, debut, fin, nomEtu], (err, result) => {
@@ -489,5 +493,74 @@ app.post('/update-suivi', (req, res) => {
             res.json({ message: 'Commentaires mis à jour' });
         });
     }
+});
+
+app.post('/add-resp', (req, res) => {
+    const { nameEtu, idResp, idEtu } = req.body;
+    const sql = `SELECT idResp2 FROM suivis_${nameEtu};`
+    db.query(sql, (err, results) => {
+        if (err) {
+            console.error('Erreur lors de l\'exécution de la requête :', err);
+            return res.status(500).send('Erreur serveur');
+        } else if (results[0].idResp2 == null) {
+            const sql2 = `SELECT * FROM suivis_${nameEtu};`
+            db.query(sql2, (err, results) => {
+                if (err) {
+                    console.error('Erreur lors de l\'exécution de la requête :', err);
+                    return res.status(500).send('Erreur serveur');
+                }
+                const sql = `UPDATE suivis_${nameEtu} SET idResp2 = ?;`
+                db.query(sql, [idResp], (err, result) => {
+                    if (err) {
+                        console.error('Erreur lors de l\'exécution de la requête :', err);
+                        return res.status(500).send('Erreur serveur');
+                    }
+                });
+                const sql3 = 'INSERT INTO etu_to_resp (idEtu, idResp) VALUES (?, ?)';
+                db.query(sql3, [idEtu, idResp], (err, result) => {
+                    if (err) {
+                        console.error('Erreur lors de l\'exécution de la requête :', err);
+                        return res.status(500).send('Erreur serveur');
+                    }
+                    res.json({ message: 'Responsable ajouté' });
+                });
+
+            });
+        } else {
+            const sql4 = `SELECT idResp3 FROM suivis_${nameEtu};`
+            db.query(sql4, (err, results) => {
+                if (err) {
+                    console.error('Erreur lors de l\'exécution de la requête :', err);
+                    return res.status(500).send('Erreur serveur');
+                } else if (results[0].idResp3 == null) {
+                    const sql5 = `SELECT * FROM suivis_${nameEtu};`
+                    db.query(sql5, (err, results) => {
+                        if (err) {
+                            console.error('Erreur lors de l\'exécution de la requête :', err);
+                            return res.status(500).send('Erreur serveur');
+                        }
+                        const sql = `UPDATE suivis_${nameEtu} SET idResp3 = ?;`
+                        db.query(sql, [idResp], (err, result) => {
+                            if (err) {
+                                console.error('Erreur lors de l\'exécution de la requête :', err);
+                                return res.status(500).send('Erreur serveur');
+                            }
+                        });
+                        const sql6 = 'INSERT INTO etu_to_resp (idEtu, idResp) VALUES (?, ?)';
+                        db.query(sql6, [idEtu, idResp], (err, result) => {
+                            if (err) {
+                                console.error('Erreur lors de l\'exécution de la requête :', err);
+                                return res.status(500).send('Erreur serveur');
+                            }
+                            res.json({ message: 'Responsable ajouté' });
+                        });
+
+                    });
+                } else {
+                    return res.status(401).json({ message: 'Ajout impossible' });
+                }
+            });
+        }
+    });
 });
 

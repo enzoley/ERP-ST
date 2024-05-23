@@ -179,7 +179,33 @@
                     </div>
                 </div>
             </div>
-            <div class="mb-5"></div>
+            <div class="mb-5">
+                <div class="container mt-5">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h2>Ajouter un responsable pédagogique</h2>
+                                </div>
+                                <div class="card-body">
+                                    <form id="addResp">
+                                        <div class="mb-3">
+                                            <label for="selectorEtuAdd" class="form-label">Etudiant</label>
+                                            <select id="selectorEtuAdd" required></select>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="selectorRespAdd" class="form-label">Responsable
+                                                Pédagogique</label>
+                                            <select id="selectorRespAdd" required></select>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary" id="deleteButton">Ajouter</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 </body>
 <footer class="bg-dark text-light">
@@ -201,5 +227,6 @@
 <script src="js/adminDelete.js"></script>
 <script src="js/adminSuivi.js"></script>
 <script src="js/adminSuiviDel.js"></script>
+<script src="js/adminAdd.js"></script>
 
 </html>

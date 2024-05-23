@@ -25,6 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 if (response.ok) {
                     alert('Inscription réussie');
+                    window.location.reload();
                 } else {
                     alert(data.message);
                 }
@@ -33,7 +34,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 alert('Une erreur est survenue. Veuillez réessayer.');
             }
         });
-        window.location.reload();
     }
 });
 
