@@ -81,6 +81,30 @@ app.get('/users', (req, res) => {
     });
 });
 
+app.post('/get-user-nomprenom', (req, res) => {
+    const { email } = req.body;
+    
+    if (!email) {
+        return res.status(400).json({ error: 'Email is required' });
+    }
+    
+    const sql = 'SELECT nom, prenom FROM users WHERE email = ?';
+    db.query(sql, [email], (err, results) => {
+        if (err) {
+            console.error('Database error:', err);
+            return res.status(500).json({ error: 'Internal server error' });
+        }
+        
+        if (results.length === 0) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+        
+        const user = results[0];
+        res.json({ nom: user.nom, prenom: user.prenom });
+    });
+});
+
+
 app.put('/user/:id', (req, res) => {
     const { username, email, password } = req.body;
     const hashedPassword = bcrypt.hashSync(password, 10);
@@ -352,6 +376,19 @@ app.post('/partenariat', (req, res) => {
                 res.json({ message: 'Partenariat ajouté' });
             });
         }
+    });
+});
+
+
+app.post('/suivi-etu', (req, res) => {
+    const { name } = req.body;
+    const sql = `SELECT * FROM suivis_${name}`;
+    db.query(sql, (err, results) => {
+        if (err) {
+            console.error('Erreur lors de l\'exécution de la requête :', err);
+            return res.status(500).send('Erreur serveur');
+        }
+        res.json(results);
     });
 });
 
