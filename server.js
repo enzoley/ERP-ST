@@ -83,22 +83,22 @@ app.get('/users', (req, res) => {
 
 app.post('/get-user-nomprenom', (req, res) => {
     const { email } = req.body;
-    
+
     if (!email) {
         return res.status(400).json({ error: 'Email is required' });
     }
-    
+
     const sql = 'SELECT nom, prenom FROM users WHERE email = ?';
     db.query(sql, [email], (err, results) => {
         if (err) {
             console.error('Database error:', err);
             return res.status(500).json({ error: 'Internal server error' });
         }
-        
+
         if (results.length === 0) {
             return res.status(404).json({ error: 'User not found' });
         }
-        
+
         const user = results[0];
         res.json({ nom: user.nom, prenom: user.prenom });
     });
@@ -326,7 +326,15 @@ app.post('/create-suivi', (req, res) => {
 
                 current.setMonth(current.getMonth() + 1);
             }
-            res.json({ message: 'Suivi créé' });
+
+            const sql = 'INSERT INTO etu_to_resp (idEtu, idResp) VALUES (?, ?)';
+            db.query(sql, [idEtu, idResp], (err, result) => {
+                if (err) {
+                    console.error('Erreur lors de l\'exécution de la requête :', err);
+                    return res.status(500).send('Erreur serveur');
+                }
+                res.json({ message: 'Suivi créé' });
+            });
         }
     });
 });
@@ -389,6 +397,35 @@ app.post('/suivi-etu', (req, res) => {
             return res.status(500).send('Erreur serveur');
         }
         res.json(results);
+    });
+});
+
+app.post('/etu-resp', (req, res) => {
+    const { idResp } = req.body;
+    const sql = 'SELECT idEtu FROM etu_to_resp WHERE idResp = ?';
+    db.query(sql, [idResp], async (err, results) => {
+        if (err) {
+            console.error('Erreur lors de l\'exécution de la requête :', err);
+            return res.status(500).send('Erreur serveur');
+        }
+        let l = [];
+        const promises = results.map(result => {
+            return new Promise((resolve, reject) => {
+                const sql = 'SELECT * FROM users WHERE id = ?';
+                db.query(sql, [result.idEtu], (err, queryResults) => {
+                    if (err) {
+                        console.error('Erreur lors de l\'exécution de la requête :', err);
+                        reject('Erreur serveur');
+                    } else {
+                        const name = queryResults[0].nom + " " + queryResults[0].prenom;
+                        resolve(name);
+                    }
+                });
+            });
+        });
+        l = await Promise.all(promises);
+        console.log(l);
+        res.json(l);
     });
 });
 
