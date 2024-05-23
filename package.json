@@ -20,10 +20,15 @@
     "express": "^4.19.2",
     "express-session": "^1.18.0",
     "jsonwebtoken": "^9.0.2",
+    "jspdf": "^2.5.1",
     "mysql": "^2.18.1",
     "mysql2": "^3.9.7",
     "nodejs-nodemailer-outlook": "^1.2.4",
     "nodemailer": "^6.9.13",
+    "puppeteer": "^22.9.0",
     "sequelize": "^6.37.3"
+  },
+  "devDependencies": {
+    "@types/jspdf": "^2.0.0"
   }
 }

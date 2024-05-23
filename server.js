@@ -5,6 +5,7 @@ const path = require('path');
 const mysql = require('mysql');
 const bcrypt = require('bcryptjs');
 const session = require('express-session');
+const puppeteer = require('puppeteer');
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -562,5 +563,29 @@ app.post('/add-resp', (req, res) => {
             });
         }
     });
+});
+
+
+app.post('/generate-PDF', async (req, res) => {
+    const { div } = req.body;
+    let content = `<html>
+    <head>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    </head>
+    <body>
+` + div + ` </body></html>`;
+    console.log(content);
+    const browser = await puppeteer.launch();
+    const page = await browser.newPage();
+    await page.setContent(content);
+    const pdf = await page.pdf({ format: 'A4' });
+
+    await browser.close();
+
+    res.set({ 'Content-Type': 'application/pdf', 'Content-Length': pdf.length });
+    res.send(pdf);
+
+    console.log('PDF Generated!');
 });
 
