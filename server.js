@@ -572,7 +572,7 @@ app.post('/generate-pdf', (req, res) => {
     console.log(l);
     const doc = new PDFDocument({
         size: 'A4',
-        margin: 50
+        margin: 40
     });
 
     res.setHeader('Content-Type', 'application/pdf');
@@ -611,9 +611,9 @@ app.post('/generate-pdf', (req, res) => {
     const title2X = (doc.page.width - title2Width) / 2;
     doc.text(title2, title2X, 50);
     doc.moveDown(1);
-    doc.fontSize(15);
+    doc.fontSize(12);
     l.forEach((item) => {
-        doc.text(`Mois: ${item.mois} ${item.annee}`, 40)
+        doc.text(`Mois: ${item.mois} ${item.annee}`, 40);
         doc.moveDown(0.5);
         doc.text(`Taches: ${item.taches}`, 40);
         doc.moveDown(0.5);
