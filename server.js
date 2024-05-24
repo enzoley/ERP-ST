@@ -610,6 +610,17 @@ app.post('/generate-pdf', (req, res) => {
     const title2Width = doc.widthOfString(title2);
     const title2X = (doc.page.width - title2Width) / 2;
     doc.text(title2, title2X, 50);
+    doc.moveDown(1);
+    doc.fontSize(15);
+    l.forEach((item) => {
+        doc.text(`Mois: ${item.mois} ${item.annee}`, 40)
+        doc.moveDown(0.5);
+        doc.text(`Taches: ${item.taches}`, 40);
+        doc.moveDown(0.5);
+        doc.text(`Commentaires: ${item.commentaires}`, 40);
+        doc.moveDown(2);
+
+    });
 
     doc.end();
 });
