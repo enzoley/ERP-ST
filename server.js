@@ -5,7 +5,8 @@ const path = require('path');
 const mysql = require('mysql');
 const bcrypt = require('bcryptjs');
 const session = require('express-session');
-const puppeteer = require('puppeteer');
+const PDFDocument = require('pdfkit');
+const fs = require('fs');
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -566,26 +567,50 @@ app.post('/add-resp', (req, res) => {
 });
 
 
-app.post('/generate-PDF', async (req, res) => {
-    const { div } = req.body;
-    let content = `<html>
-    <head>
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    </head>
-    <body>
-` + div + ` </body></html>`;
-    console.log(content);
-    const browser = await puppeteer.launch();
-    const page = await browser.newPage();
-    await page.setContent(content);
-    const pdf = await page.pdf({ format: 'A4' });
+app.post('/generate-pdf', (req, res) => {
+    const l = req.body;
+    console.log(l);
+    const doc = new PDFDocument({
+        size: 'A4',
+        margin: 50
+    });
 
-    await browser.close();
+    res.setHeader('Content-Type', 'application/pdf');
+    res.setHeader('Content-Disposition', 'attachment; filename=document.pdf');
 
-    res.set({ 'Content-Type': 'application/pdf', 'Content-Length': pdf.length });
-    res.send(pdf);
+    doc.pipe(res);
 
-    console.log('PDF Generated!');
+    const title = "Livret de suivi d'alternance";
+    doc.fontSize(30);
+    const titleWidth = doc.widthOfString(title);
+    const titleHeight = doc.heightOfString(title);
+    const titleX = (doc.page.width - titleWidth) / 2;
+    const titleY = (doc.page.height - titleHeight) / 3;
+    doc.text(title, titleX, titleY);
+
+    const imagePath = path.join(__dirname, 'www/img/stn.png');
+    const imageY = titleY + titleHeight + 50;
+
+    if (fs.existsSync(imagePath)) {
+        doc.image(imagePath, {
+            fit: [doc.page.width - 100, doc.page.height / 3],
+            align: 'center',
+            valign: 'top',
+            x: 50,
+            y: imageY
+        });
+    } else {
+        console.error('Image not found at', imagePath);
+    }
+
+    doc.addPage();
+
+    const title2 = "Suivi de l'étudiant";
+    doc.fontSize(30);
+    const title2Width = doc.widthOfString(title2);
+    const title2X = (doc.page.width - title2Width) / 2;
+    doc.text(title2, title2X, 50);
+
+    doc.end();
 });
 
