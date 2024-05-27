@@ -216,7 +216,9 @@ async function loadPropositions() {
             const div = document.createElement('div');
             div.className = 'card';
             div.innerHTML = `
-                <p>Aucune proposition de visite</p>
+                <div class="mt-3">
+                <p class ="text-center">Aucune proposition de visite</p>
+                </div>
                 `;
             propositionDiv.appendChild(div);
         } else {
