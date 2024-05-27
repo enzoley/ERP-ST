@@ -649,7 +649,7 @@ app.post('/generate-pdf', (req, res) => {
 app.post('/visite-etu', (req, res) => {
     const { id } = req.body;
     console.log(id);
-    const sql = 'SELECT * FROM visites WHERE idEtu = ?';
+    const sql = 'SELECT * FROM visites WHERE idEtu = ? AND accept = 1';
     db.query(sql, [id], (err, results) => {
         if (err) {
             console.error('Erreur lors de l\'exécution de la requête :', err);
@@ -658,3 +658,4 @@ app.post('/visite-etu', (req, res) => {
         res.json(results);
     });
 });
+

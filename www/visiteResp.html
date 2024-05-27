@@ -37,7 +37,59 @@
         </div>
     </navbar>
     <div class="content">
+        <div class="container mt-5">
+            <div class="row">
+                <div class="col-md-6">
+                    <h1 class="text-center">Rendez-vous planifiés </h1>
+                    <div class="mt-5">
+                        <label for="selectEtu" class="form-label">Visites de l'étudiant : </label>
+                        <select class="form-select" id="selectEtu"></select>
+                        <div id="visite" class="mt-5">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <h1 class="text-center">Proposer un rendez-vous</h1>
+                    <div class="card mt-5">
+                        <div class="card-header">
+                            Ajout d'une visite
+                        </div>
+                        <div class="card-body">
+                            <form id="visiteForm">
+                                <div class="mb-3">
+                                    <label for="inputJour" class="form-label">Date</label>
+                                    <select class="form-select" id="inputJour">
 
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="choixPeriode" class="form-label">Mois</label>
+                                    <select class="form-select" id="inputMois">
+                                        <option value="0">Janvier</option>
+                                        <option value="1">Février</option>
+                                        <option value="2">Mars</option>
+                                        <option value="3">Avril</option>
+                                        <option value="4">Mai</option>
+                                        <option value="5">Juin</option>
+                                        <option value="6">Juillet</option>
+                                        <option value="7">Août</option>
+                                        <option value="8">Septembre</option>
+                                        <option value="9">Octobre</option>
+                                        <option value="10">Novembre</option>
+                                        <option value="11">Décembre</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="inputAnnee" class="form-label">Année</label>
+                                    <select class="form-select" id="inputAnnee"></select>
+                                </div>
+                                <button type="button" class="btn btn-primary" id="ajoutButton">Envoyer</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </body>
 <footer class="bg-dark text-light">
@@ -52,7 +104,7 @@
     </div>
 
 </footer>
-<script src="app.js"></script>
+<script src="js/visiteResp.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
     crossorigin="anonymous"></script>
