@@ -44,7 +44,28 @@
             </div>
         </div>
     </navbar>
-    <div class="content"></div>
+    <div class="content">
+        <div class="container mt-5">
+            <div class="row">
+                <div class="col-md-6">
+                    <h1 class="text-center">Rendez-vous planifiés </h1>
+                    <div class="mt-5">
+                        <label for="selectEtu" class="form-label">Visites de l'étudiant : </label>
+                        <select class="form-select" id="selectEtu"></select>
+                        <div id="visite" class="mt-5">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <h1 class="text-center">Rendez-vous proposés</h1>
+                    <div class="card mt-5">
+                        <div id="proposition">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 <footer class="bg-dark text-light">
     <div class="container">
@@ -58,7 +79,7 @@
     </div>
 
 </footer>
-<script src="app.js"></script>
+<script src="js/visiteEnt.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
     crossorigin="anonymous"></script>

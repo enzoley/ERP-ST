@@ -738,3 +738,31 @@ app.post('/ajout-visite-resp', (req, res) => {
 
 });
 
+app.post('/get-resp', (req, res) => {
+    const { nom, prenom } = req.body;
+    const sqlName = 'SELECT id FROM users WHERE nom = ? AND prenom = ?';
+    db.query(sqlName, [nom, prenom], (err, results) => {
+        if (err) {
+            console.error('Erreur lors de l\'exécution de la requête :', err);
+            return res.status(500).send('Erreur serveur');
+        } else {
+            const sql = 'SELECT idResp FROM etu_to_resp WHERE idEtu = ?';
+            db.query(sql, [results[0].id], (err, results) => {
+                if (err) {
+                    console.error('Erreur lors de l\'exécution de la requête :', err);
+                    return res.status(500).send('Erreur serveur');
+                } else {
+                    const sql2 = 'SELECT nom, prenom FROM users WHERE id = ?';
+                    db.query(sql2, [results[0].idResp], (err, results) => {
+                        if (err) {
+                            console.error('Erreur lors de l\'exécution de la requête :', err);
+                            return res.status(500).send('Erreur serveur');
+                        }
+                        res.json(results);
+                    });
+                }
+            });
+        }
+
+    });
+});
