@@ -70,7 +70,6 @@ function loadSuiviResp() {
     suiviDivResp.innerHTML = "";
     const etu = etuSelectorResp.value;
     const etuName = etu.split(' ').join('');
-    console.log(etuName);
     fetch('http://localhost:3000/suivi-etu', {
         method: 'POST',
         headers: {

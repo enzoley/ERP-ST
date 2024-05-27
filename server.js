@@ -460,7 +460,6 @@ app.post('/etu-resp', (req, res) => {
             });
         });
         l = await Promise.all(promises);
-        console.log(l);
         res.json(l);
     });
 });
@@ -656,6 +655,55 @@ app.post('/visite-etu', (req, res) => {
             return res.status(500).send('Erreur serveur');
         }
         res.json(results);
+    });
+});
+
+app.post('/visite-resp', (req, res) => {
+    const { nom, prenom } = req.body;
+    const sqlName = 'SELECT id FROM users WHERE nom = ? AND prenom = ?';
+    db.query(sqlName, [nom, prenom], (err, results) => {
+        if (err) {
+            console.error('Erreur lors de l\'exécution de la requête :', err);
+            return res.status(500).send('Erreur serveur');
+        }
+        console.log(results);
+        const sql = 'SELECT * FROM visites WHERE idEtu = ? AND accept = 1';
+        db.query(sql, [results[0].id], (err, results) => {
+            if (err) {
+                console.error('Erreur lors de l\'exécution de la requête :', err);
+                return res.status(500).send('Erreur serveur');
+            }
+            res.json(results);
+        });
+    });
+});
+
+app.post('/get-ent', (req, res) => {
+    const { nom, prenom } = req.body;
+    const sqlName = 'SELECT id FROM users WHERE nom = ? AND prenom = ?';
+    db.query(sqlName, [nom, prenom], (err, results) => {
+        if (err) {
+            console.error('Erreur lors de l\'exécution de la requête :', err);
+            return res.status(500).send('Erreur serveur');
+        } else {
+            const sql = 'SELECT idEnt FROM etu_to_ent WHERE idEtu = ?';
+            db.query(sql, [results[0].id], (err, results) => {
+                if (err) {
+                    console.error('Erreur lors de l\'exécution de la requête :', err);
+                    return res.status(500).send('Erreur serveur');
+                } else {
+                    const sql2 = 'SELECT nom FROM users WHERE id = ?';
+                    db.query(sql2, [results[0].idEnt], (err, results) => {
+                        if (err) {
+                            console.error('Erreur lors de l\'exécution de la requête :', err);
+                            return res.status(500).send('Erreur serveur');
+                        }
+                        res.json(results);
+                    });
+                }
+            });
+        }
+
     });
 });
 

@@ -81,6 +81,8 @@ async function loadEtu3() {
     } catch (error) {
         console.error(error);
     }
+    loadVisiteResp();
+
 
 }
 
@@ -126,3 +128,52 @@ loadEtu3();
 loadFormResp();
 
 visiteMoisResp.addEventListener('change', loadFormResp);
+
+async function loadVisiteResp() {
+    visiteDivResp.innerHTML = '';
+    try {
+        const nom = etuSelectResp.value.split(' ')[0];
+        const prenom = etuSelectResp.value.split(' ')[1];
+        const response = await fetch('http://localhost:3000/visite-resp', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ nom: nom, prenom: prenom })
+        });
+        const visites = await response.json();
+        visites.sort((a: { annee: number; mois: string; jour: number | undefined; }, b: { annee: number; mois: string; jour: number | undefined; }) => {
+            const dateA = new Date(a.annee, parseInt(a.mois) + 1, a.jour).getTime();
+            const dateB = new Date(b.annee, parseInt(b.mois) + 1, b.jour).getTime();
+
+            return dateA - dateB;
+        });
+        const responseEnt = await fetch('http://localhost:3000/get-ent', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ nom: nom, prenom: prenom })
+        });
+        if (!responseEnt.ok) {
+            throw new Error('Erreur lors de la récupération des données de l\'entreprise');
+        }
+        const dataEnt = await responseEnt.json();
+        for (const visite of visites) {
+            const mois = month4(parseInt(visite.mois));
+            const jour = visite.jour;
+            const annee = visite.annee;
+            const div = document.createElement('div');
+            div.className = 'card mb-5';
+            div.innerHTML = `
+            <p><b>Date : </b> ${jour} ${mois} ${annee}</p>
+            <p><b>Entreprise : </b> ${dataEnt[0].nom}</p>
+            `;
+            visiteDivResp.appendChild(div);
+        }
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+etuSelectResp.addEventListener('change', loadVisiteResp);
