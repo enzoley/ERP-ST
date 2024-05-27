@@ -4,6 +4,7 @@ const visiteFormResp = document.getElementById('visiteForm') as HTMLFormElement;
 const visiteJourResp = document.getElementById('inputJour') as HTMLSelectElement;
 const visiteMoisResp = document.getElementById('inputMois') as HTMLSelectElement;
 const visiteAnneeResp = document.getElementById('inputAnnee') as HTMLSelectElement;
+const ajoutRDVButton = document.getElementById('ajoutButton') as HTMLButtonElement;
 
 function estBissextile(year: number): boolean {
     if (year % 4 === 0) {
@@ -177,3 +178,34 @@ async function loadVisiteResp() {
 }
 
 etuSelectResp.addEventListener('change', loadVisiteResp);
+
+ajoutRDVButton.addEventListener('click', async (e) => {
+    try {
+        e.preventDefault();
+        const reponseCompte = await fetch('http://localhost:3000/check-login');
+        const compteRes = await reponseCompte.json();
+        if (!compteRes.loggedIn) {
+            window.location.href = 'index.html';
+            return;
+        }
+        const id = compteRes.user.id;
+        const nom = etuSelectResp.value.split(' ')[0];
+        const prenom = etuSelectResp.value.split(' ')[1];
+        const jour = visiteJourResp.value;
+        const mois = visiteMoisResp.value;
+        const annee = visiteAnneeResp.value;
+        const response = await fetch('http://localhost:3000/ajout-visite-resp', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ id : id, nom : nom, prenom : prenom, jour : jour, mois : mois, annee : annee })
+        });
+        if (!response.ok) {
+            throw new Error('Erreur lors de l\'ajout de la visite');
+        }
+        loadVisiteResp();
+    } catch (error) {
+        console.error(error);
+    }
+});

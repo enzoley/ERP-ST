@@ -707,3 +707,34 @@ app.post('/get-ent', (req, res) => {
     });
 });
 
+app.post('/ajout-visite-resp', (req, res) => {
+    const { id, nom, prenom, jour, mois, annee } = req.body;
+    const sql = 'SELECT id FROM users WHERE nom = ? AND prenom = ?';
+    db.query(sql, [nom, prenom], (err, results) => {
+        const idEtu = results[0].id;
+        if (err) {
+            console.error('Erreur lors de l\'exécution de la requête :', err);
+            return res.status(500).send('Erreur serveur');
+        } else {
+            const sql2 = 'SELECT idEnt FROM etu_to_ent WHERE idEtu = ?';
+            db.query(sql2, [results[0].id], (err, results) => {
+                const idEnt = results[0].idEnt;
+                if (err) {
+                    console.error('Erreur lors de l\'exécution de la requête :', err);
+                    return res.status(500).send('Erreur serveur');
+                } else {
+                    const sql3 = 'INSERT INTO visites (idResp, idEtu, idEnt, jour, mois, annee, accept) VALUES (?, ?, ?, ?, ?, ?, 0)';
+                    db.query(sql3, [id, idEtu, idEnt, jour, mois, annee], (err, results) => {
+                        if (err) {
+                            console.error('Erreur lors de l\'exécution de la requête :', err);
+                            return res.status(500).send('Erreur serveur');
+                        }
+                        res.json({ message: 'Visite ajoutée' });
+                    });
+                }
+            });
+        }
+    });
+
+});
+
