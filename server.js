@@ -766,3 +766,16 @@ app.post('/get-resp', (req, res) => {
 
     });
 });
+
+app.post('/proposition', (req, res) => {
+    const { id } = req.body;
+    const sql = 'SELECT * FROM visites WHERE idEnt = ? AND accept = 0';
+    db.query(sql, [id], (err, results) => {
+        if (err) {
+            console.error('Erreur lors de l\'exécution de la requête :', err);
+            return res.status(500).send('Erreur serveur');
+        }
+        res.json(results);
+    });
+});
+

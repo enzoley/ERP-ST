@@ -167,8 +167,10 @@ async function loadVisiteResp() {
             const div = document.createElement('div');
             div.className = 'card mb-5';
             div.innerHTML = `
+            <div class="card-body">
             <p><b>Date : </b> ${jour} ${mois} ${annee}</p>
             <p><b>Entreprise : </b> ${dataEnt[0].nom}</p>
+            </div>
             `;
             visiteDivResp.appendChild(div);
         }
@@ -199,7 +201,7 @@ ajoutRDVButton.addEventListener('click', async (e) => {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ id : id, nom : nom, prenom : prenom, jour : jour, mois : mois, annee : annee })
+            body: JSON.stringify({ id: id, nom: nom, prenom: prenom, jour: jour, mois: mois, annee: annee })
         });
         if (!response.ok) {
             throw new Error('Erreur lors de l\'ajout de la visite');

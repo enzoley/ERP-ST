@@ -71,10 +71,12 @@ async function loadVisite() {
             const div = document.createElement('div');
             div.className = 'card mb-5';
             div.innerHTML = `
+            <div class="card-body">
                 <p>
                     <b>Date : </b>${jour} ${mois} ${annee} <br>
                     <b>Responsable : </b>${resp} <br>
                 </p>
+            </div>
             `;
             visiteEtuDiv.appendChild(div);
         }
