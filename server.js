@@ -106,6 +106,29 @@ app.post('/get-user-nomprenom', (req, res) => {
     });
 });
 
+app.post('/get-user-nomprenomID', (req, res) => {
+    const { id } = req.body;
+
+    if (!id) {
+        return res.status(400).json({ error: 'ID is required' });
+    }
+
+    const sql = 'SELECT nom, prenom FROM users WHERE id = ?';
+    db.query(sql, [id], (err, results) => {
+        if (err) {
+            console.error('Database error:', err);
+            return res.status(500).json({ error: 'Internal server error' });
+        }
+
+        if (results.length === 0) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+
+        const user = results[0];
+        res.json({ nom: user.nom, prenom: user.prenom });
+    });
+});
+
 
 app.put('/user/:id', (req, res) => {
     const { username, email, password } = req.body;
@@ -475,7 +498,6 @@ app.post('/update-suivi', (req, res) => {
     const { type, periode, text, nomEtu } = req.body;
     const month = periode.split(' ')[0];
     const year = periode.split(' ')[1];
-    console.log(type, periode, text, nomEtu);
     if (type === 'tache') {
         const sql = `UPDATE suivis_${nomEtu} SET taches = ? WHERE mois = ? AND annee = ?`;
         db.query(sql, [text, month, year], (err, result) => {
@@ -569,7 +591,6 @@ app.post('/add-resp', (req, res) => {
 
 app.post('/generate-pdf', (req, res) => {
     const l = req.body;
-    console.log(l);
     const doc = new PDFDocument({
         size: 'A4',
         margin: 40
@@ -625,3 +646,15 @@ app.post('/generate-pdf', (req, res) => {
     doc.end();
 });
 
+app.post('/visite-etu', (req, res) => {
+    const { id } = req.body;
+    console.log(id);
+    const sql = 'SELECT * FROM visites WHERE idEtu = ?';
+    db.query(sql, [id], (err, results) => {
+        if (err) {
+            console.error('Erreur lors de l\'exécution de la requête :', err);
+            return res.status(500).send('Erreur serveur');
+        }
+        res.json(results);
+    });
+});
