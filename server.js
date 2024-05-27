@@ -667,7 +667,7 @@ app.post('/visite-resp', (req, res) => {
             return res.status(500).send('Erreur serveur');
         }
         console.log(results);
-        const sql = 'SELECT * FROM visites WHERE idEtu = ? AND accept = 1';
+        const sql = 'SELECT * FROM visites WHERE idEtu = ?';
         db.query(sql, [results[0].id], (err, results) => {
             if (err) {
                 console.error('Erreur lors de l\'exécution de la requête :', err);
@@ -779,3 +779,26 @@ app.post('/proposition', (req, res) => {
     });
 });
 
+app.post('/accepter', (req, res) => {
+    const { id } = req.body;
+    const sql = 'UPDATE visites SET accept = 1 WHERE id = ?';
+    db.query(sql, [id], (err, results) => {
+        if (err) {
+            console.error('Erreur lors de l\'exécution de la requête :', err);
+            return res.status(500).send('Erreur serveur');
+        }
+        res.json({ message: 'Visite acceptée' });
+    });
+});
+
+app.post('/refuser', (req, res) => {
+    const { id } = req.body;
+    const sql = 'DELETE FROM visites WHERE id = ?';
+    db.query(sql, [id], (err, results) => {
+        if (err) {
+            console.error('Erreur lors de l\'exécution de la requête :', err);
+            return res.status(500).send('Erreur serveur');
+        }
+        res.json({ message: 'Visite refusée' });
+    });
+});

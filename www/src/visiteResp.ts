@@ -130,6 +130,60 @@ loadFormResp();
 
 visiteMoisResp.addEventListener('change', loadFormResp);
 
+function createGoogleCalendarLink3({
+    title,
+    description,
+    location,
+    startDate,
+    endDate
+}: {
+    title: string;
+    description: string;
+    location: string;
+    startDate: string;
+    endDate: string;
+}) {
+    const baseUrl = 'https://www.google.com/calendar/render?action=TEMPLATE';
+    const params = new URLSearchParams({
+        text: title,
+        dates: `${startDate}/${endDate}`,
+        details: description,
+        location: location,
+        sf: 'true',
+        output: 'xml'
+    });
+
+    return `${baseUrl}&${params.toString()}`;
+}
+
+function createIcsFile3({
+    title,
+    description,
+    location,
+    startDate,
+    endDate
+}: {
+    title: string;
+    description: string;
+    location: string;
+    startDate: string;
+    endDate: string;
+}) {
+    const icsContent = `BEGIN:VCALENDAR
+    VERSION:2.0
+    BEGIN:VEVENT
+    SUMMARY:${title}
+    DESCRIPTION:${description}
+    LOCATION:${location}
+    DTSTART:${startDate}
+    DTEND:${endDate}
+    END:VEVENT
+    END:VCALENDAR`;
+
+    const blob = new Blob([icsContent], { type: 'text/calendar' });
+    return URL.createObjectURL(blob);
+}
+
 async function loadVisiteResp() {
     visiteDivResp.innerHTML = '';
     try {
@@ -160,16 +214,42 @@ async function loadVisiteResp() {
             throw new Error('Erreur lors de la récupération des données de l\'entreprise');
         }
         const dataEnt = await responseEnt.json();
+        let statut;
         for (const visite of visites) {
+            if (visite.accept == 0) {
+                statut = 'En attente';
+            } else {
+                statut = 'Accepté';
+            }
             const mois = month4(parseInt(visite.mois));
             const jour = visite.jour;
             const annee = visite.annee;
             const div = document.createElement('div');
+            const monthAgenda = (parseInt(visite.mois) + 1).toString();
+            const startDate = `${annee}${(monthAgenda.padStart(2, '0'))}${jour.padStart(2, '0')}T090000Z`;
+            const endDate = `${annee}${(monthAgenda.padStart(2, '0'))}${jour.padStart(2, '0')}T100000Z`;
+            const googleCalendarLink = createGoogleCalendarLink3({
+                title: "Visite de l'entreprise",
+                description: "Visite par un responsable pédagogique de la StarTech Normandy",
+                location: "Paris, France",
+                startDate,
+                endDate
+            });
+            const icsLink = createIcsFile3({
+                title: "Visite de l'entreprise",
+                description: "Visite par un responsable pédagogique de la StarTech Normandy",
+                location: "Paris, France",
+                startDate,
+                endDate
+            });
             div.className = 'card mb-5';
             div.innerHTML = `
             <div class="card-body">
             <p><b>Date : </b> ${jour} ${mois} ${annee}</p>
             <p><b>Entreprise : </b> ${dataEnt[0].nom}</p>
+            <p><b>Statut : </b> ${statut}</p>
+            <a href="${googleCalendarLink}" target="_blank" class="btn btn-primary">Ajouter à Google Calendar</a>
+            <a href="${icsLink}" download="event.ics" class="btn btn-primary">Ajouter à l'agenda</a>
             </div>
             `;
             visiteDivResp.appendChild(div);

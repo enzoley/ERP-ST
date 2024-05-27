@@ -1,8 +1,8 @@
 const selectEtu = document.getElementById('selectEtu') as HTMLSelectElement;
 const propositionDiv = document.getElementById('proposition') as HTMLDivElement;
 const visiteDiv = document.getElementById('visite') as HTMLDivElement;
-const accepterButton = document.getElementById('accepter') as HTMLButtonElement;
-const refuserButton = document.getElementById('refuser') as HTMLButtonElement;
+let accepterButton: HTMLButtonElement;
+let refuserButton: HTMLButtonElement;
 
 function month8(mois: number) {
     switch (mois) {
@@ -34,6 +34,8 @@ function month8(mois: number) {
             return 'Mois inconnu';
     }
 }
+
+let propositionCour: any;
 
 async function loadEtuV() {
     try {
@@ -68,7 +70,59 @@ async function loadEtuV() {
     loadPropositions();
 }
 
+function createGoogleCalendarLink({
+    title,
+    description,
+    location,
+    startDate,
+    endDate
+}: {
+    title: string;
+    description: string;
+    location: string;
+    startDate: string;
+    endDate: string;
+}) {
+    const baseUrl = 'https://www.google.com/calendar/render?action=TEMPLATE';
+    const params = new URLSearchParams({
+        text: title,
+        dates: `${startDate}/${endDate}`,
+        details: description,
+        location: location,
+        sf: 'true',
+        output: 'xml'
+    });
 
+    return `${baseUrl}&${params.toString()}`;
+}
+
+function createIcsFile({
+    title,
+    description,
+    location,
+    startDate,
+    endDate
+}: {
+    title: string;
+    description: string;
+    location: string;
+    startDate: string;
+    endDate: string;
+}) {
+    const icsContent = `BEGIN:VCALENDAR
+    VERSION:2.0
+    BEGIN:VEVENT
+    SUMMARY:${title}
+    DESCRIPTION:${description}
+    LOCATION:${location}
+    DTSTART:${startDate}
+    DTEND:${endDate}
+    END:VEVENT
+    END:VCALENDAR`;
+
+    const blob = new Blob([icsContent], { type: 'text/calendar' });
+    return URL.createObjectURL(blob);
+}
 
 async function loadVisites() {
     visiteDiv.innerHTML = '';
@@ -101,18 +155,39 @@ async function loadVisites() {
         }
         const dataEnt = await responseEnt.json();
         for (const visite of visites) {
-            const mois = month8(parseInt(visite.mois));
-            const jour = visite.jour;
-            const annee = visite.annee;
-            const div = document.createElement('div');
-            div.className = 'card mb-5';
-            div.innerHTML = `
+            if (visite.accept == 1) {
+                const mois = month8(parseInt(visite.mois));
+                const jour = visite.jour;
+                const annee = visite.annee;
+                const div = document.createElement('div');
+                const monthAgenda = (parseInt(visite.mois) + 1).toString();
+                const startDate = `${annee}${(monthAgenda.padStart(2, '0'))}${jour.padStart(2, '0')}T090000Z`;
+                const endDate = `${annee}${(monthAgenda.padStart(2, '0'))}${jour.padStart(2, '0')}T100000Z`;
+                const googleCalendarLink = createGoogleCalendarLink({
+                    title: "Visite de l'entreprise",
+                    description: "Visite par un responsable pédagogique de la StarTech Normandy",
+                    location: "Paris, France",
+                    startDate,
+                    endDate
+                });
+                const icsLink = createIcsFile({
+                    title: "Visite de l'entreprise",
+                    description: "Visite par un responsable pédagogique de la StarTech Normandy",
+                    location: "Paris, France",
+                    startDate,
+                    endDate
+                });
+                div.className = 'card mb-5';
+                div.innerHTML = `
             <div class="card-body">
             <p><b>Date : </b> ${jour} ${mois} ${annee}</p>
             <p><b>Responsable : </b> ${dataEnt[0].nom} ${dataEnt[0].prenom}</p>
+            <a href="${googleCalendarLink}" target="_blank" class="btn btn-primary">Ajouter à Google Calendar</a>
+            <a href="${icsLink}" download="event.ics" class="btn btn-primary">Ajouter à l'agenda</a>
             </div>
             `;
-            visiteDiv.appendChild(div);
+                visiteDiv.appendChild(div);
+            }
         }
     } catch (error) {
         console.error(error);
@@ -172,10 +247,12 @@ async function loadPropositions() {
             const mois = month8(parseInt(propositions[0].mois));
             const jour = propositions[0].jour;
             const annee = propositions[0].annee;
+            propositionCour = propositions[0].id;
             const div = document.createElement('div');
             div.className = 'card';
-            div.innerHTML = `
-                <div class="card-header">
+            div.innerHTML = `<div class="card-header">
+            <h4>${propositions.length} propositions de visite</h4>
+                <hr>
                     Proposition de visite
                 </div>
                 <div class="card-body">
@@ -187,6 +264,40 @@ async function loadPropositions() {
                 </div>
                 `;
             propositionDiv.appendChild(div);
+            accepterButton = document.getElementById('accepter') as HTMLButtonElement;
+            refuserButton = document.getElementById('refuser') as HTMLButtonElement;
+            accepterButton.addEventListener('click', async () => {
+                try {
+                    const response = await fetch('http://localhost:3000/accepter', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ id: propositionCour })
+                    });
+                    if (response.ok) {
+                        window.location.reload();
+                    }
+                } catch (error) {
+                    console.error(error);
+                }
+            });
+            refuserButton.addEventListener('click', async () => {
+                try {
+                    const response = await fetch('http://localhost:3000/refuser', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ id: propositionCour })
+                    });
+                    if (response.ok) {
+                        window.location.reload();
+                    }
+                } catch (error) {
+                    console.error(error);
+                }
+            });
         }
 
     } catch (error) {
@@ -195,3 +306,6 @@ async function loadPropositions() {
 }
 
 loadEtuV();
+
+selectEtu.addEventListener('change', loadVisites);
+

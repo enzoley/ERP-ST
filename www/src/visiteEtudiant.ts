@@ -31,6 +31,60 @@ function m(mois: number) {
     }
 }
 
+function createGoogleCalendarLink2({
+    title,
+    description,
+    location,
+    startDate,
+    endDate
+}: {
+    title: string;
+    description: string;
+    location: string;
+    startDate: string;
+    endDate: string;
+}) {
+    const baseUrl = 'https://www.google.com/calendar/render?action=TEMPLATE';
+    const params = new URLSearchParams({
+        text: title,
+        dates: `${startDate}/${endDate}`,
+        details: description,
+        location: location,
+        sf: 'true',
+        output: 'xml'
+    });
+
+    return `${baseUrl}&${params.toString()}`;
+}
+
+function createIcsFile2({
+    title,
+    description,
+    location,
+    startDate,
+    endDate
+}: {
+    title: string;
+    description: string;
+    location: string;
+    startDate: string;
+    endDate: string;
+}) {
+    const icsContent = `BEGIN:VCALENDAR
+    VERSION:2.0
+    BEGIN:VEVENT
+    SUMMARY:${title}
+    DESCRIPTION:${description}
+    LOCATION:${location}
+    DTSTART:${startDate}
+    DTEND:${endDate}
+    END:VEVENT
+    END:VCALENDAR`;
+
+    const blob = new Blob([icsContent], { type: 'text/calendar' });
+    return URL.createObjectURL(blob);
+}
+
 async function loadVisite() {
     try {
         const reponseCompte = await fetch('http://localhost:3000/check-login');
@@ -69,13 +123,32 @@ async function loadVisite() {
             const dataResp = await reponseResp.json();
             const resp = `${dataResp.nom} ${dataResp.prenom}`;
             const div = document.createElement('div');
+            const monthAgenda = (parseInt(visite.mois) + 1).toString();
+            const startDate = `${annee}${(monthAgenda.padStart(2, '0'))}${jour.padStart(2, '0')}T090000Z`;
+            const endDate = `${annee}${(monthAgenda.padStart(2, '0'))}${jour.padStart(2, '0')}T100000Z`;
+            const googleCalendarLink = createGoogleCalendarLink2({
+                title: "Visite de l'entreprise",
+                description: "Visite par un responsable pédagogique de la StarTech Normandy",
+                location: "Paris, France",
+                startDate,
+                endDate
+            });
+            const icsLink = createIcsFile2({
+                title: "Visite de l'entreprise",
+                description: "Visite par un responsable pédagogique de la StarTech Normandy",
+                location: "Paris, France",
+                startDate,
+                endDate
+            });
             div.className = 'card mb-5';
             div.innerHTML = `
             <div class="card-body">
-                <p>
-                    <b>Date : </b>${jour} ${mois} ${annee} <br>
-                    <b>Responsable : </b>${resp} <br>
-                </p>
+                
+                <p><b>Date : </b>${jour} ${mois} ${annee} <br></p>
+                <p><b>Responsable : </b>${resp} <br></p>
+                <a href="${googleCalendarLink}" target="_blank" class="btn btn-primary">Ajouter à Google Calendar</a>
+                <a href="${icsLink}" download="event.ics" class="btn btn-primary">Ajouter à l'agenda</a>
+                
             </div>
             `;
             visiteEtuDiv.appendChild(div);
