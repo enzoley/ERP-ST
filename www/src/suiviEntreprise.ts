@@ -105,9 +105,27 @@ function loadSuiviEnt() {
                     <p class="card-text">${suivi.taches}</p>
                     <p class="card-title"><b>Commentaires : </b></p>
                     <p class="card-text">${suivi.commentaires}</p>
+                    <p class="card-title"><b>Fichier joint : </b></p>
+                    <div class="file-info"></div>
                 </div>
             `;
                 suiviDivEnt.appendChild(suiviCard);
+                fetch(`/files?mois=${moisInt}&annee=${suivi.annee}&nom=${etuName}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        const fileInfo = suiviCard.querySelector('.file-info') as HTMLDivElement;
+                        if (data) {
+                            const link = document.createElement('a');
+                            link.textContent = data.filename;
+                            link.href = `data:${data.mimeType};base64,${data.fileData}`;
+                            link.download = data.filename;
+                            link.classList.add('file-link');
+                            fileInfo.appendChild(link);
+                        } else {
+                            fileInfo.textContent = 'No file available.';
+                        }
+                    })
+                    .catch(error => console.error('Error fetching file:', error));
             });
         });
 
