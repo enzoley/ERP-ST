@@ -826,3 +826,34 @@ app.post('/upload', upload.single('file'), (req, res) => {
         res.send('File uploaded successfully.');
     });
 });
+
+app.get('/files', (req, res) => {
+    const mois = req.query.mois;
+    const annee = req.query.annee;
+    const nom = req.query.nom;
+
+    const sql = `SELECT file, mime_type, file_data FROM suivis_${nom} WHERE mois = ? AND annee = ?`;
+    db.query(sql, [mois, annee], (err, results) => {
+        if (err) {
+            console.error('Error retrieving files from database:', err);
+            return res.status(500).send('Error retrieving files.');
+        }
+
+        if (results.length === 0) {
+            return res.status(404).send('No files found.');
+        } else {
+            const file = results[0];
+            const fileName = file.file;
+            if (fileName != null) {
+                const mimeType = file.mime_type;
+                const fileData = file.file_data;
+                console.log(fileName);
+                const fileDataBase64 = Buffer.from(fileData).toString('base64');
+                res.json({ filename: fileName, mimeType: mimeType, fileData: fileDataBase64 });
+            } else {
+                return res.status(404).send('No files found.');
+            }
+
+        }
+    });
+});
