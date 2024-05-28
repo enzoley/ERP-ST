@@ -64,20 +64,88 @@ async function loadSuivi() {
             const suiviCard = document.createElement('div');
             suiviCard.classList.add('card', 'mb-5');
             suiviCard.innerHTML = `
-                <div class="card-header">
-                    ${monthName} ${suivi.annee}
-                </div>
-                <div class="card-body">
-                    <p class="card-title"><b>Tâches : </b></p>
-                    <p class="card-text">${suivi.taches}</p>
-                    <p class="card-title"><b>Commentaires : </b></p>
-                    <p class="card-text">${suivi.commentaires}</p>
-                </div>
-            `;
+        <div class="card-header">
+            ${monthName} ${suivi.annee}
+        </div>
+        <div class="card-body">
+            <p class="card-title"><b>Tâches : </b></p>
+            <p class="card-text">${suivi.taches}</p>
+            <p class="card-title"><b>Commentaires : </b></p>
+            <p class="card-text">${suivi.commentaires}</p>
+            <p class="card-title"><b>Joindre un fichier : </b></p>
+            <input type="file" class="file-input">
+            <div class="file-info"></div>
+        </div>
+    `;
+            const fileInput = suiviCard.querySelector('.file-input') as HTMLInputElement;
+            fileInput.addEventListener('change', (event) => handleFileSelect(event, moisInt, suivi.annee));
             suiviDiv.appendChild(suiviCard);
         });
     } catch (error) {
         console.error('Erreur lors du chargement du suivi :', error);
+    }
+}
+
+async function uploadFile(file: File, mois: number, annee: string): Promise<void> {
+    const reponseCompte = await fetch('http://localhost:3000/check-login');
+    const compteRes = await reponseCompte.json();
+    if (!compteRes.loggedIn) {
+        window.location.href = 'index.html';
+        return;
+    }
+    const email = compteRes.user.email;
+    const nameResponse = await fetch('http://localhost:3000/get-user-nomprenom', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ email })
+    });
+    const data = await nameResponse.json();
+    const { nom, prenom } = data;
+    const name = `${nom}${prenom}`;
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('name', name);
+    formData.append('mois', mois.toString());
+    formData.append('annee', annee);
+
+    try {
+        const response = await fetch('/upload', {
+            method: 'POST',
+            body: formData,
+        });
+
+        if (!response.ok) {
+            throw new Error('Network response was not ok' + response.statusText);
+        }
+
+        const data = await response.json();
+        console.log('File uploaded successfully:', data);
+    } catch (error) {
+        console.error('Error uploading file:', error);
+    }
+}
+
+function handleFileSelect(event: Event, mois: number, annee: string): void {
+    const fileInput = event.target as HTMLInputElement;
+    const file = fileInput.files ? fileInput.files[0] : null;
+
+    if (file) {
+        const fileInfo = fileInput.nextElementSibling as HTMLDivElement;
+
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(file);
+        link.download = file.name;
+        link.textContent = file.name;
+        link.classList.add('file-link');
+
+        fileInfo.innerHTML = '';
+        fileInfo.appendChild(link);
+    }
+
+    if (fileInput.files && fileInput.files[0]) {
+        uploadFile(fileInput.files[0], mois, annee);
     }
 }
 

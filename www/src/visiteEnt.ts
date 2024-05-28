@@ -222,6 +222,12 @@ async function loadPropositions() {
                 `;
             propositionDiv.appendChild(div);
         } else {
+            let message = '';
+            if (propositions.length > 1) {
+                message = ' propositions de visite';
+            } else {
+                message = ' proposition de visite';
+            }
             propositions.sort((a: { annee: number; mois: string; jour: number | undefined; }, b: { annee: number; mois: string; jour: number | undefined; }) => {
                 const dateA = new Date(a.annee, parseInt(a.mois) + 1, a.jour).getTime();
                 const dateB = new Date(b.annee, parseInt(b.mois) + 1, b.jour).getTime();
@@ -253,7 +259,7 @@ async function loadPropositions() {
             const div = document.createElement('div');
             div.className = 'card';
             div.innerHTML = `<div class="card-header">
-            <h4>${propositions.length} propositions de visite</h4>
+            <h4>${propositions.length}${message}</h4>
                 <hr>
                     Proposition de visite
                 </div>

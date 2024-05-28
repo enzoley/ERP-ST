@@ -7,8 +7,10 @@ const bcrypt = require('bcryptjs');
 const session = require('express-session');
 const PDFDocument = require('pdfkit');
 const fs = require('fs');
+const multer = require('multer');
 
 const app = express();
+const upload = multer({ storage: multer.memoryStorage() });
 const port = process.env.PORT || 3000;
 
 function generateRandomString(length) {
@@ -326,6 +328,7 @@ app.post('/create-suivi', (req, res) => {
         idEnt INT,
         idResp2 INT,
         idResp3 INT,
+        file LONGBLOB,
         FOREIGN KEY (idEtu) REFERENCES users(id),
         FOREIGN KEY (idResp) REFERENCES users(id),
         FOREIGN KEY (idEnt) REFERENCES users(id),
@@ -800,5 +803,26 @@ app.post('/refuser', (req, res) => {
             return res.status(500).send('Erreur serveur');
         }
         res.json({ message: 'Visite refusée' });
+    });
+});
+
+app.post('/upload', upload.single('file'), (req, res) => {
+    const file = req.file;
+    const name = req.body.name;
+    const mois = req.body.mois;
+    const annee = req.body.annee;
+    if (!file) {
+        return res.status(400).send('No file uploaded.');
+    }
+
+    const sql = `UPDATE suivis_${name} SET file = ?, mime_type = ?, file_data = ? WHERE mois = ? AND annee = ?`;
+    const values = [file.originalname, file.mimetype, file.buffer, mois, annee];
+
+    db.query(sql, values, (err, results) => {
+        if (err) {
+            console.error('Error inserting file into database:', err);
+            return res.status(500).send('Error uploading file.');
+        }
+        res.send('File uploaded successfully.');
     });
 });
