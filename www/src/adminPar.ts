@@ -4,7 +4,7 @@ const entParButton = document.getElementById('entParButton') as HTMLButtonElemen
 
 async function loadOptionsEntPar() {
     try {
-        const response = await fetch('http://localhost:3000/ent-par');
+        const response = await fetch('http://manclaus.alwaysdata.net/ent-par');
         const entreprises = await response.json();
         if (entreprises.length === 0) {
             const option = document.createElement('option');
@@ -32,7 +32,7 @@ entParButton.addEventListener('click', async (event) => {
     event.preventDefault();
     const idEnt = selectorEntPar.options[selectorEntPar.selectedIndex].value;
     try {
-        const response = await fetch('http://localhost:3000/add-ent-par', {
+        const response = await fetch('http://manclaus.alwaysdata.net/add-ent-par', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const code = reinitCode.value;
 
             try {
-                const response = await fetch('http://localhost:3000/reset', {
+                const response = await fetch('http://manclaus.alwaysdata.net/reset', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'

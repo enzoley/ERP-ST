@@ -87,14 +87,14 @@ function createIcsFile2({
 
 async function loadVisite() {
     try {
-        const reponseCompte = await fetch('http://localhost:3000/check-login');
+        const reponseCompte = await fetch('http://manclaus.alwaysdata.net/check-login');
         const compteRes = await reponseCompte.json();
         if (!compteRes.loggedIn) {
             window.location.href = 'index.html';
             return;
         }
         const id = compteRes.user.id;
-        const response = await fetch('http://localhost:3000/visite-etu', {
+        const response = await fetch('http://manclaus.alwaysdata.net/visite-etu', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -113,7 +113,7 @@ async function loadVisite() {
             const mois = m(parseInt(vis.mois));
             const jour = vis.jour;
             const annee = vis.annee;
-            const reponseResp = await fetch('http://localhost:3000/get-user-nomprenomID', {
+            const reponseResp = await fetch('http://manclaus.alwaysdata.net/get-user-nomprenomID', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

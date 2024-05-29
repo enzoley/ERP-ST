@@ -4,7 +4,7 @@ const formAdd = document.getElementById('addResp') as HTMLFormElement;
 
 async function loadOptionsAdd() {
     try {
-        const response = await fetch('http://localhost:3000/etu');
+        const response = await fetch('http://manclaus.alwaysdata.net/etu');
         const etudiants = await response.json();
         etudiants.forEach((etu: { id: string; nom: string; prenom: string }) => {
             const option = document.createElement('option');
@@ -17,7 +17,7 @@ async function loadOptionsAdd() {
     }
 
     try {
-        const response = await fetch('http://localhost:3000/resp');
+        const response = await fetch('http://manclaus.alwaysdata.net/resp');
         const responsables = await response.json();
         responsables.forEach((resp: { id: string; nom: string; prenom: string }) => {
             const option = document.createElement('option');
@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const idEtu = selectEtuAdmin.options[selectEtuAdmin.selectedIndex].value;
             console.log(nameEtu, idResp, idEtu);
             try {
-                const response = await fetch('http://localhost:3000/add-resp', {
+                const response = await fetch('http://manclaus.alwaysdata.net/add-resp', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'

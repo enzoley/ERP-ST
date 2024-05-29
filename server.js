@@ -9,6 +9,7 @@ const PDFDocument = require('pdfkit');
 const fs = require('fs');
 const multer = require('multer');
 const nodemailer = require('nodemailer');
+const cors = require('cors');
 
 const app = express();
 const upload = multer({ storage: multer.memoryStorage() });
@@ -26,9 +27,11 @@ function generateRandomString(length) {
     return result;
 }
 
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('www'));
+app.use(cors());
 
 app.use(session({
     secret: process.env.SESSION_SECRET,

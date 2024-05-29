@@ -9,7 +9,7 @@ const finYear = document.getElementById('endYear') as HTMLSelectElement;
 
 async function loadOptions() {
     try {
-        const response = await fetch('http://localhost:3000/etu');
+        const response = await fetch('http://manclaus.alwaysdata.net/etu');
         const etudiants = await response.json();
         etudiants.forEach((etu: { id: string; nom: string; prenom: string }) => {
             const option = document.createElement('option');
@@ -22,7 +22,7 @@ async function loadOptions() {
     }
 
     try {
-        const response = await fetch('http://localhost:3000/resp');
+        const response = await fetch('http://manclaus.alwaysdata.net/resp');
         const responsables = await response.json();
         responsables.forEach((resp: { id: string; nom: string; prenom: string }) => {
             const option = document.createElement('option');
@@ -35,7 +35,7 @@ async function loadOptions() {
     }
 
     try {
-        const response = await fetch('http://localhost:3000/ent');
+        const response = await fetch('http://manclaus.alwaysdata.net/ent');
         const entreprises = await response.json();
         entreprises.forEach((ent: { id: string; nom: string }) => {
             const option = document.createElement('option');
@@ -78,7 +78,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const finMonthValue = finMonth.value;
             const finYearValue = finYear.value;
             try {
-                const response = await fetch('http://localhost:3000/create-suivi', {
+                const response = await fetch('http://manclaus.alwaysdata.net/create-suivi', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'

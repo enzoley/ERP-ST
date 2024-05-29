@@ -33,14 +33,14 @@ function month(mois: number) {
 
 async function loadSuivi() {
     try {
-        const reponseCompte = await fetch('http://localhost:3000/check-login');
+        const reponseCompte = await fetch('http://manclaus.alwaysdata.net/check-login');
         const compteRes = await reponseCompte.json();
         if (!compteRes.loggedIn) {
             window.location.href = 'index.html';
             return;
         }
         const email = compteRes.user.email;
-        const nameResponse = await fetch('http://localhost:3000/get-user-nomprenom', {
+        const nameResponse = await fetch('http://manclaus.alwaysdata.net/get-user-nomprenom', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -50,7 +50,7 @@ async function loadSuivi() {
         const data = await nameResponse.json();
         const { nom, prenom } = data;
         const name = `${nom}${prenom}`;
-        const response = await fetch('http://localhost:3000/suivi-etu', {
+        const response = await fetch('http://manclaus.alwaysdata.net/suivi-etu', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -103,14 +103,14 @@ async function loadSuivi() {
 }
 
 async function uploadFile(file: File, mois: number, annee: string): Promise<void> {
-    const reponseCompte = await fetch('http://localhost:3000/check-login');
+    const reponseCompte = await fetch('http://manclaus.alwaysdata.net/check-login');
     const compteRes = await reponseCompte.json();
     if (!compteRes.loggedIn) {
         window.location.href = 'index.html';
         return;
     }
     const email = compteRes.user.email;
-    const nameResponse = await fetch('http://localhost:3000/get-user-nomprenom', {
+    const nameResponse = await fetch('http://manclaus.alwaysdata.net/get-user-nomprenom', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'

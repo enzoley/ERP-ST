@@ -3,7 +3,7 @@ const deleteSuivi = document.getElementById('deleteSuivi') as HTMLFormElement;
 
 async function loadOptions2() {
     try {
-        const response = await fetch('http://localhost:3000/etu');
+        const response = await fetch('http://manclaus.alwaysdata.net/etu');
         const etudiants = await response.json();
         etudiants.forEach((etu: { id: string; nom: string; prenom: string }) => {
             const option = document.createElement('option');
@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
             event.preventDefault();
             const nameEtu = etuSelectorDel.options[etuSelectorDel.selectedIndex].text.split(' ').join('');
             try {
-                const response = await fetch('http://localhost:3000/delete-suivi', {
+                const response = await fetch('http://manclaus.alwaysdata.net/delete-suivi', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'

@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
             event.preventDefault();
             const email = deleteEmail.value;
             try {
-                const response = await fetch('http://localhost:3000/delete', {
+                const response = await fetch('http://manclaus.alwaysdata.net/delete', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'

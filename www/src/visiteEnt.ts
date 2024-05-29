@@ -234,7 +234,7 @@ async function loadPropositions() {
 
                 return dateA - dateB;
             });
-            const reponseName = await fetch('http://localhost:3000/get-user-nomprenomID', {
+            const reponseName = await fetch('http://manclaus.alwaysdata.net/get-user-nomprenomID', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -242,7 +242,7 @@ async function loadPropositions() {
                 body: JSON.stringify({ id: propositions[0].idEtu })
             });
             const dataName = await reponseName.json();
-            const reponseResp = await fetch('http://localhost:3000/get-user-nomprenomID', {
+            const reponseResp = await fetch('http://manclaus.alwaysdata.net/get-user-nomprenomID', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -276,7 +276,7 @@ async function loadPropositions() {
             refuserButton = document.getElementById('refuser') as HTMLButtonElement;
             accepterButton.addEventListener('click', async () => {
                 try {
-                    const response = await fetch('http://localhost:3000/accepter', {
+                    const response = await fetch('http://manclaus.alwaysdata.net/accepter', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json'
@@ -292,7 +292,7 @@ async function loadPropositions() {
             });
             refuserButton.addEventListener('click', async () => {
                 try {
-                    const response = await fetch('http://localhost:3000/refuser', {
+                    const response = await fetch('http://manclaus.alwaysdata.net/refuser', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json'

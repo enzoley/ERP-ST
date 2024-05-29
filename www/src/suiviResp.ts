@@ -34,14 +34,14 @@ function month2(mois: number) {
 
 async function loadEtu() {
     try {
-        const reponseCompte = await fetch('http://localhost:3000/check-login');
+        const reponseCompte = await fetch('http://manclaus.alwaysdata.net/check-login');
         const compteRes = await reponseCompte.json();
         if (!compteRes.loggedIn) {
             window.location.href = 'index.html';
             return;
         }
         const id = compteRes.user.id;
-        const response = await fetch('http://localhost:3000/etu-resp', {
+        const response = await fetch('http://manclaus.alwaysdata.net/etu-resp', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -70,7 +70,7 @@ function loadSuiviResp() {
     suiviDivResp.innerHTML = "";
     const etu = etuSelectorResp.value;
     const etuName = etu.split(' ').join('');
-    fetch('http://localhost:3000/suivi-etu', {
+    fetch('http://manclaus.alwaysdata.net/suivi-etu', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'

@@ -55,14 +55,14 @@ function month4(mois: number) {
 
 async function loadEtu3() {
     try {
-        const reponseCompte = await fetch('http://localhost:3000/check-login');
+        const reponseCompte = await fetch('http://manclaus.alwaysdata.net/check-login');
         const compteRes = await reponseCompte.json();
         if (!compteRes.loggedIn) {
             window.location.href = 'index.html';
             return;
         }
         const id = compteRes.user.id;
-        const response = await fetch('http://localhost:3000/etu-resp', {
+        const response = await fetch('http://manclaus.alwaysdata.net/etu-resp', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -189,7 +189,7 @@ async function loadVisiteResp() {
     try {
         const nom = etuSelectResp.value.split(' ')[0];
         const prenom = etuSelectResp.value.split(' ')[1];
-        const response = await fetch('http://localhost:3000/visite-resp', {
+        const response = await fetch('http://manclaus.alwaysdata.net/visite-resp', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -203,7 +203,7 @@ async function loadVisiteResp() {
 
             return dateA - dateB;
         });
-        const responseEnt = await fetch('http://localhost:3000/get-ent', {
+        const responseEnt = await fetch('http://manclaus.alwaysdata.net/get-ent', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -264,7 +264,7 @@ etuSelectResp.addEventListener('change', loadVisiteResp);
 ajoutRDVButton.addEventListener('click', async (e) => {
     try {
         e.preventDefault();
-        const reponseCompte = await fetch('http://localhost:3000/check-login');
+        const reponseCompte = await fetch('http://manclaus.alwaysdata.net/check-login');
         const compteRes = await reponseCompte.json();
         if (!compteRes.loggedIn) {
             window.location.href = 'index.html';
@@ -276,7 +276,7 @@ ajoutRDVButton.addEventListener('click', async (e) => {
         const jour = visiteJourResp.value;
         const mois = visiteMoisResp.value;
         const annee = visiteAnneeResp.value;
-        const response = await fetch('http://localhost:3000/ajout-visite-resp', {
+        const response = await fetch('http://manclaus.alwaysdata.net/ajout-visite-resp', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

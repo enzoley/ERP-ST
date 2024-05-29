@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const prenom = createPrenom.value;
             const situation = createSituation.value;
             try {
-                const response = await fetch('http://localhost:3000/register', {
+                const response = await fetch('http://manclaus.alwaysdata.net/register', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'

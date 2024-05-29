@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const email = genEmail.value;
 
             try {
-                const response = await fetch('http://localhost:3000/code', {
+                const response = await fetch('http://manclaus.alwaysdata.net/code', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'

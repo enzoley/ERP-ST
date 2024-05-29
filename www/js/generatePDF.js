@@ -41,7 +41,7 @@ document.getElementById('generateButton').addEventListener('click', async () => 
 
         const email = compteRes.user.email;
 
-        const nameResponse = await fetch('http://localhost:3000/get-user-nomprenom', {
+        const nameResponse = await fetch('http://manclaus.alwaysdata.net/get-user-nomprenom', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -53,7 +53,7 @@ document.getElementById('generateButton').addEventListener('click', async () => 
         const { nom, prenom } = data;
         const name = `${nom}${prenom}`;
 
-        const response = await fetch('http://localhost:3000/suivi-etu', {
+        const response = await fetch('http://manclaus.alwaysdata.net/suivi-etu', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
