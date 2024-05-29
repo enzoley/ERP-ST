@@ -39,14 +39,14 @@ let propositionCour: any;
 
 async function loadEtuV() {
     try {
-        const reponseCompte = await fetch('http://localhost:3000/check-login');
+        const reponseCompte = await fetch('http://manclaus.alwaysdata.net/check-login');
         const compteRes = await reponseCompte.json();
         if (!compteRes.loggedIn) {
             window.location.href = 'index.html';
             return;
         }
         const id = compteRes.user.id;
-        const response = await fetch('http://localhost:3000/etu-ent', {
+        const response = await fetch('http://manclaus.alwaysdata.net/etu-ent', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -129,7 +129,7 @@ async function loadVisites() {
     try {
         const nom = selectEtu.value.split(' ')[0];
         const prenom = selectEtu.value.split(' ')[1];
-        const response = await fetch('http://localhost:3000/visite-resp', {
+        const response = await fetch('http://manclaus.alwaysdata.net/visite-resp', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -143,7 +143,7 @@ async function loadVisites() {
 
             return dateA - dateB;
         });
-        const responseEnt = await fetch('http://localhost:3000/get-resp', {
+        const responseEnt = await fetch('http://manclaus.alwaysdata.net/get-resp', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -197,14 +197,14 @@ async function loadVisites() {
 async function loadPropositions() {
     propositionDiv.innerHTML = '';
     try {
-        const reponseCompte = await fetch('http://localhost:3000/check-login');
+        const reponseCompte = await fetch('http://manclaus.alwaysdata.net/check-login');
         const compteRes = await reponseCompte.json();
         if (!compteRes.loggedIn) {
             window.location.href = 'index.html';
             return;
         }
         const id = compteRes.user.id;
-        const response = await fetch('http://localhost:3000/proposition', {
+        const response = await fetch('http://manclaus.alwaysdata.net/proposition', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
