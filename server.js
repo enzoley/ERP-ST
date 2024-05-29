@@ -850,3 +850,27 @@ app.get('/files', (req, res) => {
         }
     });
 });
+
+app.get('/ent-par', (req, res) => {
+    const sql = 'SELECT * FROM users WHERE situation = "entreprise" AND partenariat = 0';
+    db.query(sql, (err, results) => {
+        if (err) {
+            console.error('Erreur lors de l\'exécution de la requête :', err);
+            res.status(500).send('Erreur serveur');
+            return;
+        }
+        res.json(results);
+    });
+});
+
+app.post('/add-ent-par', (req, res) => {
+    const { idEnt } = req.body;
+    const sql = 'UPDATE users SET partenariat = 1 WHERE id = ?';
+    db.query(sql, [idEnt], (err, results) => {
+        if (err) {
+            console.error('Erreur lors de l\'exécution de la requête :', err);
+            return res.status(500).send('Erreur serveur');
+        }
+        res.json({ message: 'Partenariat ajouté' });
+    });
+});
