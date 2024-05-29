@@ -904,3 +904,24 @@ app.post('/add-ent-par', (req, res) => {
         res.json({ message: 'Partenariat ajouté' });
     });
 });
+
+app.post('/contact', (req, res) => {
+    const { email, message } = req.body;
+
+    const mailOptions = {
+        from: process.env.EMAIL_USER,
+        to: 'enzo@startechnormandy.com',
+        subject: "Nouveau message via le suivi STN",
+        text: `Email : ${email}\nMessage : ${message}`
+    }
+
+    transporter.sendMail(mailOptions, (err, info) => {
+        if (err) {
+            console.error('Error sending email:', err);
+            return res.status(500).json({ message: 'Erreur serveur' });
+        } else {
+            console.log('Email sent:', info.response);
+            res.json({ message: 'Email envoyé' });
+        }
+    });
+});

@@ -1,10 +1,34 @@
-const contactForm = document.getElementById('contactForm');
+const contactForm = document.getElementById('contactForm') as HTMLFormElement;
+const inputMessage = document.getElementById('inputMessage') as HTMLInputElement;
+const contactButton = document.getElementById('contactButton') as HTMLButtonElement;
 
-document.addEventListener('DOMContentLoaded', () => {
-    if (contactForm) {
-        contactForm.addEventListener('submit', async (event) => {
-            event.preventDefault();
-            alert('Message envoyé');
+contactButton.addEventListener('click', async (event) => {
+    event.preventDefault();
+    const message = inputMessage.value;
+    const reponseCompte = await fetch('http://localhost:3000/check-login');
+    const compteRes = await reponseCompte.json();
+    if (!compteRes.loggedIn) {
+        window.location.href = 'index.html';
+        return;
+    }
+    const email = compteRes.user.email;
+    try {
+        const response = await fetch('http://localhost:3000/contact', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ email : email, message : message })
         });
+        const data = await response.json();
+
+        if (response.ok) {
+            alert('Message envoyé');
+            window.location.reload();
+        } else {
+            alert(data.message);
+        }
+    } catch (error) {
+        console.error('Erreur :', error);
     }
 });
