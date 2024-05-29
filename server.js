@@ -8,6 +8,7 @@ const session = require('express-session');
 const PDFDocument = require('pdfkit');
 const fs = require('fs');
 const multer = require('multer');
+const nodemailer = require('nodemailer');
 
 const app = express();
 const upload = multer({ storage: multer.memoryStorage() });
@@ -35,6 +36,19 @@ app.use(session({
     saveUninitialized: true,
     cookie: { secure: false }
 }));
+
+const transporter = nodemailer.createTransport({
+    host: "smtp-mail.outlook.com",
+    secureConnection: false,
+    port: 587,
+    tls: {
+        ciphers: 'SSLv3'
+    },
+    auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASSWORD
+    }
+});
 
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'www', 'index.html'));
@@ -240,6 +254,22 @@ app.post('/code', (req, res) => {
 
         const user = results[0];
         const code = Math.floor(100000 + Math.random() * 900000);
+
+        const mailOptions = {
+            from: process.env.EMAIL_USER,
+            to: email,
+            subject: 'Code de réinitialisation du mot de passe',
+            text: `Votre code de réinitialisation est : ${code}`
+        };
+
+        transporter.sendMail(mailOptions, (err, info) => {
+            if (err) {
+                console.error('Error sending email:', err);
+                return res.status(500).json({ message: 'Erreur serveur' });
+            } else {
+                console.log('Email sent:', info.response);
+            }
+        });
 
         const sql = 'UPDATE users SET code = ? WHERE email = ?';
 
