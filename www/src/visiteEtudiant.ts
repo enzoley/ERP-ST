@@ -123,8 +123,9 @@ async function loadVisite() {
             const dataResp = await reponseResp.json();
             const resp = `${dataResp.nom} ${dataResp.prenom}`;
             const div = document.createElement('div');
-            const monthAgenda = (parseInt(visite.mois) + 1).toString();
+            const monthAgenda = (parseInt(vis.mois) + 1).toString();
             const startDate = `${annee}${(monthAgenda.padStart(2, '0'))}${jour.padStart(2, '0')}T090000Z`;
+            console.log(startDate);
             const endDate = `${annee}${(monthAgenda.padStart(2, '0'))}${jour.padStart(2, '0')}T100000Z`;
             const googleCalendarLink = createGoogleCalendarLink2({
                 title: "Visite de l'entreprise",
