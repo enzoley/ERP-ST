@@ -4,6 +4,8 @@ const visiteDiv = document.getElementById('visite') as HTMLDivElement;
 let accepterButton: HTMLButtonElement;
 let refuserButton: HTMLButtonElement;
 
+document.addEventListener('DOMContentLoaded', loadEtuV);
+
 function month8(mois: number) {
     switch (mois) {
         case 0:
@@ -313,7 +315,6 @@ async function loadPropositions() {
     }
 }
 
-loadEtuV();
 
 selectEtu.addEventListener('change', loadVisites);
 
