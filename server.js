@@ -970,7 +970,7 @@ app.post('/reset-ent-par', (req, res) => {
 });
 
 app.get('/opt-delete', (req, res) => {
-    const sql = 'SELECT * FROM users';
+    const sql = 'SELECT * FROM users WHERE situation != "autre"';
     db.query(sql, (err, results) => {
         if (err) {
             console.error('Erreur lors de l\'exécution de la requête :', err);
