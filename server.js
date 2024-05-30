@@ -284,20 +284,20 @@ app.post('/code', (req, res) => {
 });
 
 app.post('/delete', (req, res) => {
-    const { email } = req.body;
+    const { id } = req.body;
 
-    const sql = 'SELECT * FROM users WHERE email = ?';
-    db.query(sql, [email], (err, results) => {
+    const sql = 'SELECT * FROM users WHERE id = ?';
+    db.query(sql, [id], (err, results) => {
         if (err) throw err;
 
         if (results.length === 0) {
-            return res.status(401).json({ message: 'Email incorrect' });
+            return res.status(401).json({ message: 'id incorrect' });
         } else {
             if (results[0].situation != "autre") {
-                const sql = 'DELETE FROM users WHERE email = ?';
-                db.query(sql, [email], (err, result) => {
+                const sql = 'DELETE FROM users WHERE id = ?';
+                db.query(sql, [id], (err, result) => {
                     if (err) throw err;
-                    res.json({ message: 'Delete successful', user: { email: email } });
+                    res.json({ message: 'Delete successful', user: { id: id } });
                 });
             } else {
                 return res.status(401).json({ message: "Suppression d'un admin impossible" });
@@ -412,7 +412,7 @@ app.post('/create-suivi', (req, res) => {
 });
 
 app.post('/delete-suivi', (req, res) => {
-    const { nomEtu } = req.body;
+    const { nomEtu, id } = req.body;
 
     if (!nomEtu) {
         return res.status(400).json({ message: 'Nom de l\'étudiant manquant' });
@@ -424,7 +424,23 @@ app.post('/delete-suivi', (req, res) => {
             console.error('Erreur lors de l\'exécution de la requête :', err);
             return res.status(500).send('Erreur serveur');
         }
-        res.json({ message: 'Suivi supprimé' });
+        const sql2 = 'DELETE FROM etu_to_resp WHERE idEtu = ?';
+        db.query(sql2, [id], (err, result) => {
+            if (err) {
+                console.error('Erreur lors de l\'exécution de la requête :', err);
+                return res.status(500).send('Erreur serveur');
+            } else {
+                const sql3 = 'DELETE FROM etu_to_ent WHERE idEtu = ?';
+                db.query(sql3, [id], (err, result) => {
+                    if (err) {
+                        console.error('Erreur lors de l\'exécution de la requête :', err);
+                        return res.status(500).send('Erreur serveur');
+                    } else {
+                        res.json({ message: 'Suivi supprimé' });
+                    }
+                });
+            }
+        });
     });
 });
 
@@ -950,5 +966,17 @@ app.post('/reset-ent-par', (req, res) => {
             return res.status(500).send('Erreur serveur');
         }
         res.json({ message: 'Partenariat ajouté' });
+    });
+});
+
+app.get('/opt-delete', (req, res) => {
+    const sql = 'SELECT * FROM users';
+    db.query(sql, (err, results) => {
+        if (err) {
+            console.error('Erreur lors de l\'exécution de la requête :', err);
+            res.status(500).send('Erreur serveur');
+            return;
+        }
+        res.json(results);
     });
 });

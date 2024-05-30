@@ -24,13 +24,14 @@ document.addEventListener('DOMContentLoaded', () => {
         deleteSuivi.addEventListener('submit', async (event) => {
             event.preventDefault();
             const nameEtu = etuSelectorDel.options[etuSelectorDel.selectedIndex].text.split(' ').join('');
+            const idEtu = etuSelectorDel.options[etuSelectorDel.selectedIndex].value;
             try {
                 const response = await fetch('http://manclaus.alwaysdata.net/delete-suivi', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify({ nomEtu: nameEtu })
+                    body: JSON.stringify({ nomEtu: nameEtu, id: idEtu })
                 });
                 const data = await response.json();
 
