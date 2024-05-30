@@ -896,6 +896,18 @@ app.get('/ent-par', (req, res) => {
     });
 });
 
+app.get('/ent-par-2', (req, res) => {
+    const sql = 'SELECT * FROM users WHERE situation = "entreprise" AND partenariat = 1';
+    db.query(sql, (err, results) => {
+        if (err) {
+            console.error('Erreur lors de l\'exécution de la requête :', err);
+            res.status(500).send('Erreur serveur');
+            return;
+        }
+        res.json(results);
+    });
+});
+
 app.post('/add-ent-par', (req, res) => {
     const { idEnt } = req.body;
     const sql = 'UPDATE users SET partenariat = 1 WHERE id = ?';
@@ -926,5 +938,17 @@ app.post('/contact', (req, res) => {
             console.log('Email sent:', info.response);
             res.json({ message: 'Email envoyé' });
         }
+    });
+});
+
+app.post('/reset-ent-par', (req, res) => {
+    const { idEnt } = req.body;
+    const sql = 'UPDATE users SET partenariat = 0 WHERE id = ?';
+    db.query(sql, [idEnt], (err, results) => {
+        if (err) {
+            console.error('Erreur lors de l\'exécution de la requête :', err);
+            return res.status(500).send('Erreur serveur');
+        }
+        res.json({ message: 'Partenariat ajouté' });
     });
 });
