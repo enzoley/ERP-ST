@@ -1,19 +1,35 @@
 const express = require('express');
+
 const bodyParser = require('body-parser');
+
 require('dotenv').config();
+
 const path = require('path');
+
 const mysql = require('mysql');
+
 const bcrypt = require('bcryptjs');
+
 const session = require('express-session');
+
 const PDFDocument = require('pdfkit');
+
 const fs = require('fs');
+
 const multer = require('multer');
+
 const nodemailer = require('nodemailer');
+
 const cors = require('cors');
 
 const app = express();
 const upload = multer({ storage: multer.memoryStorage() });
 const port = process.env.PORT || 3000;
+
+function generateRandomNumber() {
+    return Math.floor(Math.random() * 1000000);
+
+}
 
 function generateRandomString(length) {
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -29,8 +45,11 @@ function generateRandomString(length) {
 
 
 app.use(bodyParser.json());
+
 app.use(bodyParser.urlencoded({ extended: true }));
+
 app.use(express.static('www'));
+
 app.use(cors());
 
 app.use(session({
