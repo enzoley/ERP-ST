@@ -960,7 +960,7 @@ app.post('/contact', (req, res) => {
 
     const mailOptions = {
         from: process.env.EMAIL_USER,
-        to: 'enzo@startechnormandy.com',
+        to: process.env.EMAIL_SEND,
         subject: "Nouveau message via le suivi STN",
         text: `Email : ${email}\nMessage : ${message}`
     }
