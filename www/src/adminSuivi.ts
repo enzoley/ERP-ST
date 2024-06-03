@@ -48,14 +48,14 @@ async function loadOptions() {
     }
 
     const currentYear = new Date().getFullYear();
-    for (let i = currentYear; i < 2100; i++) {
+    for (let i = currentYear; i < currentYear + 100; i++) {
         const option = document.createElement('option');
         option.value = i.toString();
         option.textContent = i.toString();
         debutYear.appendChild(option);
     }
 
-    for (let i = currentYear; i < 2100; i++) {
+    for (let i = currentYear; i < currentYear + 100; i++) {
         const option = document.createElement('option');
         option.value = i.toString();
         option.textContent = i.toString();
