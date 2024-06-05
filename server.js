@@ -59,13 +59,16 @@ app.use(session({
     cookie: { secure: false }
 }));
 
-let transporter = nodemailer.createTransport({
-    host: 'smtp-ssl.alwaysdata.net',
-    port: 465,
-    secure: true,
+const transporter = nodemailer.createTransport({
+    host: "smtp-mail.outlook.com",
+    secureConnection: false,
+    port: 587,
+    tls: {
+        ciphers: 'SSLv3'
+    },
     auth: {
-        user: 'votre_utilisateur@domaine.com', // Votre adresse email Alwaysdata
-        pass: 'votre_mot_de_passe' // Votre mot de passe email Alwaysdata
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASSWORD
     }
 });
 
@@ -275,7 +278,7 @@ app.post('/code', (req, res) => {
         const code = Math.floor(100000 + Math.random() * 900000);
 
         const mailOptions = {
-            from: process.env.EMAIL_USER,
+            from: `"${process.env.EMAIL_FROM_NAME}" <${process.env.EMAIL_USER}>`,
             to: email,
             subject: 'Code de réinitialisation du mot de passe',
             text: `Votre code de réinitialisation est : ${code}`
@@ -1005,7 +1008,7 @@ app.post('/contact', (req, res) => {
     const { email, message } = req.body;
 
     const mailOptions = {
-        from: process.env.EMAIL_USER,
+        from: `"${process.env.EMAIL_FROM_NAME}" <${process.env.EMAIL_USER}>`,
         to: process.env.EMAIL_SEND,
         subject: "Nouveau message via le suivi STN",
         text: `Email : ${email}\nMessage : ${message}`
