@@ -16,7 +16,7 @@ function verifyAuth() {
                     console.log('Logged in as:', data.user);
                 } else if (pageName == 'index.html') {
                     try {
-                        const response = await fetch('http://manclaus.alwaysdata.net/logout', {
+                        const response = await fetch('https://entreprises.startechnormandy.com/logout', {
                             method: 'POST',
                             credentials: 'include'
                         });
@@ -58,7 +58,7 @@ document.getElementById('logoutButton').addEventListener('click', async function
     event.preventDefault();
 
     try {
-        const response = await fetch('http://manclaus.alwaysdata.net/logout', {
+        const response = await fetch('https://entreprises.startechnormandy.com/logout', {
             method: 'POST',
             credentials: 'include'
         });

@@ -4,7 +4,7 @@ const formAdd = document.getElementById('addResp') as HTMLFormElement;
 
 async function loadOptionsAdd() {
     try {
-        const response = await fetch('http://manclaus.alwaysdata.net/etu');
+        const response = await fetch('https://entreprises.startechnormandy.com/etu');
         const etudiants = await response.json();
         etudiants.forEach((etu: { id: string; nom: string; prenom: string }) => {
             const option = document.createElement('option');
@@ -17,7 +17,7 @@ async function loadOptionsAdd() {
     }
 
     try {
-        const response = await fetch('http://manclaus.alwaysdata.net/resp');
+        const response = await fetch('https://entreprises.startechnormandy.com/resp');
         const responsables = await response.json();
         responsables.forEach((resp: { id: string; nom: string; prenom: string }) => {
             const option = document.createElement('option');
@@ -37,12 +37,12 @@ document.addEventListener('DOMContentLoaded', () => {
     if (formAdd) {
         formAdd.addEventListener('submit', async (event) => {
             event.preventDefault();
-            const nameEtu = etuSelector.options[etuSelector.selectedIndex].text.split(' ').join('');
+            const nameEtu = selectEtuAdmin.options[selectEtuAdmin.selectedIndex].text.split(' ').join('');
             const idResp = selectRespAdmin.options[selectRespAdmin.selectedIndex].value;
             const idEtu = selectEtuAdmin.options[selectEtuAdmin.selectedIndex].value;
             console.log(nameEtu, idResp, idEtu);
             try {
-                const response = await fetch('http://manclaus.alwaysdata.net/add-resp', {
+                const response = await fetch('https://entreprises.startechnormandy.com/add-resp', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'

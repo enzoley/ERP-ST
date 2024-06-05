@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const password = connexionPassword.value;
             const situation = connexionSituation.value;
             try {
-                const response = await fetch('http://manclaus.alwaysdata.net/login', {
+                const response = await fetch('https://entreprises.startechnormandy.com/login', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'

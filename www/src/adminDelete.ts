@@ -3,7 +3,7 @@ const deleteForm = document.getElementById('delete') as HTMLFormElement;
 
 async function loadOptionsDelete() {
     try {
-        const response = await fetch('http://manclaus.alwaysdata.net/opt-delete');
+        const response = await fetch('https://entreprises.startechnormandy.com/opt-delete');
         const emails = await response.json();
         if (emails.length === 0) {
             const option = document.createElement('option');
@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
             event.preventDefault();
             const id = deleteEmail.value;
             try {
-                const response = await fetch('http://manclaus.alwaysdata.net/delete', {
+                const response = await fetch('https://entreprises.startechnormandy.com/delete', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'

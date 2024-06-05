@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const code = reinitCode.value;
 
             try {
-                const response = await fetch('http://manclaus.alwaysdata.net/reset', {
+                const response = await fetch('https://entreprises.startechnormandy.com/reset', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'

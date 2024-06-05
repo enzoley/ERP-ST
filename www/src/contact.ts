@@ -5,7 +5,7 @@ const contactButton = document.getElementById('contactButton') as HTMLButtonElem
 contactButton.addEventListener('click', async (event) => {
     event.preventDefault();
     const message = inputMessage.value;
-    const reponseCompte = await fetch('http://manclaus.alwaysdata.net/check-login');
+    const reponseCompte = await fetch('https://entreprises.startechnormandy.com/check-login');
     const compteRes = await reponseCompte.json();
     if (!compteRes.loggedIn) {
         window.location.href = 'index.html';
@@ -13,12 +13,12 @@ contactButton.addEventListener('click', async (event) => {
     }
     const email = compteRes.user.email;
     try {
-        const response = await fetch('http://manclaus.alwaysdata.net/contact', {
+        const response = await fetch('https://entreprises.startechnormandy.com/contact', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ email : email, message : message })
+            body: JSON.stringify({ email: email, message: message })
         });
         const data = await response.json();
 

@@ -3,7 +3,7 @@ const deleteSuivi = document.getElementById('deleteSuivi') as HTMLFormElement;
 
 async function loadOptions2() {
     try {
-        const response = await fetch('http://manclaus.alwaysdata.net/etu');
+        const response = await fetch('https://entreprises.startechnormandy.com/etu');
         const etudiants = await response.json();
         etudiants.forEach((etu: { id: string; nom: string; prenom: string }) => {
             const option = document.createElement('option');
@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const nameEtu = etuSelectorDel.options[etuSelectorDel.selectedIndex].text.split(' ').join('');
             const idEtu = etuSelectorDel.options[etuSelectorDel.selectedIndex].value;
             try {
-                const response = await fetch('http://manclaus.alwaysdata.net/delete-suivi', {
+                const response = await fetch('https://entreprises.startechnormandy.com/delete-suivi', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'

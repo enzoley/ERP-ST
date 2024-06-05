@@ -3,7 +3,7 @@ const emailInput = document.getElementById('inputEmailPart') as HTMLInputElement
 const formDiv = document.getElementById('form') as HTMLDivElement;
 
 document.addEventListener('DOMContentLoaded', async () => {
-    const reponseCompte = await fetch('http://manclaus.alwaysdata.net/check-login');
+    const reponseCompte = await fetch('https://entreprises.startechnormandy.com/check-login');
     const compteRes = await reponseCompte.json();
     if (!compteRes.loggedIn) {
         window.location.href = 'index.html';
@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
     const email = compteRes.user.email;
     try {
-        const response = await fetch('http://manclaus.alwaysdata.net/partenariat', {
+        const response = await fetch('https://entreprises.startechnormandy.com/partenariat', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

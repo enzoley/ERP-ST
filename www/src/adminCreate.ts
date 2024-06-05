@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const prenom = createPrenom.value;
             const situation = createSituation.value;
             try {
-                const response = await fetch('http://manclaus.alwaysdata.net/register', {
+                const response = await fetch('https://entreprises.startechnormandy.com/register', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'

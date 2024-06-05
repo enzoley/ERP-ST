@@ -55,14 +55,14 @@ function month4(mois: number) {
 
 async function loadEtu3() {
     try {
-        const reponseCompte = await fetch('http://manclaus.alwaysdata.net/check-login');
+        const reponseCompte = await fetch('https://entreprises.startechnormandy.com/check-login');
         const compteRes = await reponseCompte.json();
         if (!compteRes.loggedIn) {
             window.location.href = 'index.html';
             return;
         }
         const id = compteRes.user.id;
-        const response = await fetch('http://manclaus.alwaysdata.net/etu-resp', {
+        const response = await fetch('https://entreprises.startechnormandy.com/etu-resp', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -83,11 +83,12 @@ async function loadEtu3() {
         console.error(error);
     }
     loadVisiteResp();
+    loadFormResp("-1");
 
 
 }
 
-async function loadFormResp() {
+async function loadFormResp(jour: string) {
     visiteJourResp.innerHTML = '';
     visiteAnneeResp.innerHTML = '';
     const currentYear = new Date().getFullYear();
@@ -110,7 +111,7 @@ async function loadFormResp() {
     } else {
         max = 30;
     }
-
+    const j = parseInt(jour);
     for (let i = 1; i <= max; i++) {
         const option = document.createElement('option');
         option.value = i.toString();
@@ -119,6 +120,9 @@ async function loadFormResp() {
         } else {
             option.textContent = i.toString();
         }
+        if (i == j) {
+            option.selected = true;
+        }
         visiteJourResp.appendChild(option);
     }
 }
@@ -126,9 +130,12 @@ async function loadFormResp() {
 
 
 loadEtu3();
-loadFormResp();
 
-visiteMoisResp.addEventListener('change', loadFormResp);
+
+visiteMoisResp.addEventListener('change', function () {
+    loadFormResp(visiteJourResp.value);
+});
+
 
 function createGoogleCalendarLink3({
     title,
@@ -189,7 +196,7 @@ async function loadVisiteResp() {
     try {
         const nom = etuSelectResp.value.split(' ')[0];
         const prenom = etuSelectResp.value.split(' ')[1];
-        const response = await fetch('http://manclaus.alwaysdata.net/visite-resp', {
+        const response = await fetch('https://entreprises.startechnormandy.com/visite-resp', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -203,7 +210,7 @@ async function loadVisiteResp() {
 
             return dateA - dateB;
         });
-        const responseEnt = await fetch('http://manclaus.alwaysdata.net/get-ent', {
+        const responseEnt = await fetch('https://entreprises.startechnormandy.com/get-ent', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -264,7 +271,7 @@ etuSelectResp.addEventListener('change', loadVisiteResp);
 ajoutRDVButton.addEventListener('click', async (e) => {
     try {
         e.preventDefault();
-        const reponseCompte = await fetch('http://manclaus.alwaysdata.net/check-login');
+        const reponseCompte = await fetch('https://entreprises.startechnormandy.com/check-login');
         const compteRes = await reponseCompte.json();
         if (!compteRes.loggedIn) {
             window.location.href = 'index.html';
@@ -276,7 +283,7 @@ ajoutRDVButton.addEventListener('click', async (e) => {
         const jour = visiteJourResp.value;
         const mois = visiteMoisResp.value;
         const annee = visiteAnneeResp.value;
-        const response = await fetch('http://manclaus.alwaysdata.net/ajout-visite-resp', {
+        const response = await fetch('https://entreprises.startechnormandy.com/ajout-visite-resp', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

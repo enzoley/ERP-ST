@@ -6,7 +6,7 @@ const resetButton = document.getElementById('resetButton') as HTMLButtonElement;
 
 async function loadOptionsEntPar() {
     try {
-        const response = await fetch('http://manclaus.alwaysdata.net/ent-par');
+        const response = await fetch('https://entreprises.startechnormandy.com/ent-par');
         const entreprises = await response.json();
         if (entreprises.length === 0) {
             const option = document.createElement('option');
@@ -31,7 +31,7 @@ async function loadOptionsEntPar() {
 
 async function loadOptionsReset() {
     try {
-        const response = await fetch('http://manclaus.alwaysdata.net/ent-par-2');
+        const response = await fetch('https://entreprises.startechnormandy.com/ent-par-2');
         const entreprises = await response.json();
         if (entreprises.length === 0) {
             const option = document.createElement('option');
@@ -59,7 +59,7 @@ entParButton.addEventListener('click', async (event) => {
     event.preventDefault();
     const idEnt = selectorEntPar.options[selectorEntPar.selectedIndex].value;
     try {
-        const response = await fetch('http://manclaus.alwaysdata.net/add-ent-par', {
+        const response = await fetch('https://entreprises.startechnormandy.com/add-ent-par', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -83,7 +83,7 @@ resetButton.addEventListener('click', async (event) => {
     event.preventDefault();
     const idEnt = selectorReset.options[selectorReset.selectedIndex].value;
     try {
-        const response = await fetch('http://manclaus.alwaysdata.net/reset-ent-par', {
+        const response = await fetch('https://entreprises.startechnormandy.com/reset-ent-par', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

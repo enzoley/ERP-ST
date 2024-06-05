@@ -9,7 +9,7 @@ const finYear = document.getElementById('endYear') as HTMLSelectElement;
 
 async function loadOptions() {
     try {
-        const response = await fetch('http://manclaus.alwaysdata.net/etu');
+        const response = await fetch('https://entreprises.startechnormandy.com/etu');
         const etudiants = await response.json();
         etudiants.forEach((etu: { id: string; nom: string; prenom: string }) => {
             const option = document.createElement('option');
@@ -22,7 +22,7 @@ async function loadOptions() {
     }
 
     try {
-        const response = await fetch('http://manclaus.alwaysdata.net/resp');
+        const response = await fetch('https://entreprises.startechnormandy.com/resp');
         const responsables = await response.json();
         responsables.forEach((resp: { id: string; nom: string; prenom: string }) => {
             const option = document.createElement('option');
@@ -35,7 +35,7 @@ async function loadOptions() {
     }
 
     try {
-        const response = await fetch('http://manclaus.alwaysdata.net/ent');
+        const response = await fetch('https://entreprises.startechnormandy.com/ent');
         const entreprises = await response.json();
         entreprises.forEach((ent: { id: string; nom: string }) => {
             const option = document.createElement('option');
@@ -78,7 +78,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const finMonthValue = finMonth.value;
             const finYearValue = finYear.value;
             try {
-                const response = await fetch('http://manclaus.alwaysdata.net/create-suivi', {
+                const response = await fetch('https://entreprises.startechnormandy.com/create-suivi', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'

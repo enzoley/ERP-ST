@@ -34,14 +34,14 @@ function month2(mois: number) {
 
 async function loadEtu() {
     try {
-        const reponseCompte = await fetch('http://manclaus.alwaysdata.net/check-login');
+        const reponseCompte = await fetch('https://entreprises.startechnormandy.com/check-login');
         const compteRes = await reponseCompte.json();
         if (!compteRes.loggedIn) {
             window.location.href = 'index.html';
             return;
         }
         const id = compteRes.user.id;
-        const response = await fetch('http://manclaus.alwaysdata.net/etu-resp', {
+        const response = await fetch('https://entreprises.startechnormandy.com/etu-resp', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -70,7 +70,7 @@ function loadSuiviResp() {
     suiviDivResp.innerHTML = "";
     const etu = etuSelectorResp.value;
     const etuName = etu.split(' ').join('');
-    fetch('http://manclaus.alwaysdata.net/suivi-etu', {
+    fetch('https://entreprises.startechnormandy.com/suivi-etu', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'

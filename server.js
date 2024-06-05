@@ -588,7 +588,7 @@ app.post('/add-resp', (req, res) => {
         if (err) {
             console.error('Erreur lors de l\'exécution de la requête :', err);
             return res.status(500).send('Erreur serveur');
-        } else if (results[0].idResp2 == null) {
+        } else if (results[0].idResp2 === null) {
             const sql2 = `SELECT * FROM suivis_${nameEtu};`
             db.query(sql2, (err, results) => {
                 if (err) {
@@ -618,7 +618,7 @@ app.post('/add-resp', (req, res) => {
                 if (err) {
                     console.error('Erreur lors de l\'exécution de la requête :', err);
                     return res.status(500).send('Erreur serveur');
-                } else if (results[0].idResp3 == null) {
+                } else if (results[0].idResp3 === null) {
                     const sql5 = `SELECT * FROM suivis_${nameEtu};`
                     db.query(sql5, (err, results) => {
                         if (err) {

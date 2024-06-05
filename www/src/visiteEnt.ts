@@ -41,14 +41,14 @@ let propositionCour: any;
 
 async function loadEtuV() {
     try {
-        const reponseCompte = await fetch('http://manclaus.alwaysdata.net/check-login');
+        const reponseCompte = await fetch('https://entreprises.startechnormandy.com/check-login');
         const compteRes = await reponseCompte.json();
         if (!compteRes.loggedIn) {
             window.location.href = 'index.html';
             return;
         }
         const id = compteRes.user.id;
-        const response = await fetch('http://manclaus.alwaysdata.net/etu-ent', {
+        const response = await fetch('https://entreprises.startechnormandy.com/etu-ent', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -131,7 +131,7 @@ async function loadVisites() {
     try {
         const nom = selectEtu.value.split(' ')[0];
         const prenom = selectEtu.value.split(' ')[1];
-        const response = await fetch('http://manclaus.alwaysdata.net/visite-resp', {
+        const response = await fetch('https://entreprises.startechnormandy.com/visite-resp', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -145,7 +145,7 @@ async function loadVisites() {
 
             return dateA - dateB;
         });
-        const responseEnt = await fetch('http://manclaus.alwaysdata.net/get-resp', {
+        const responseEnt = await fetch('https://entreprises.startechnormandy.com/get-resp', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -199,14 +199,14 @@ async function loadVisites() {
 async function loadPropositions() {
     propositionDiv.innerHTML = '';
     try {
-        const reponseCompte = await fetch('http://manclaus.alwaysdata.net/check-login');
+        const reponseCompte = await fetch('https://entreprises.startechnormandy.com/check-login');
         const compteRes = await reponseCompte.json();
         if (!compteRes.loggedIn) {
             window.location.href = 'index.html';
             return;
         }
         const id = compteRes.user.id;
-        const response = await fetch('http://manclaus.alwaysdata.net/proposition', {
+        const response = await fetch('https://entreprises.startechnormandy.com/proposition', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -236,7 +236,7 @@ async function loadPropositions() {
 
                 return dateA - dateB;
             });
-            const reponseName = await fetch('http://manclaus.alwaysdata.net/get-user-nomprenomID', {
+            const reponseName = await fetch('https://entreprises.startechnormandy.com/get-user-nomprenomID', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -244,7 +244,7 @@ async function loadPropositions() {
                 body: JSON.stringify({ id: propositions[0].idEtu })
             });
             const dataName = await reponseName.json();
-            const reponseResp = await fetch('http://manclaus.alwaysdata.net/get-user-nomprenomID', {
+            const reponseResp = await fetch('https://entreprises.startechnormandy.com/get-user-nomprenomID', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -278,7 +278,7 @@ async function loadPropositions() {
             refuserButton = document.getElementById('refuser') as HTMLButtonElement;
             accepterButton.addEventListener('click', async () => {
                 try {
-                    const response = await fetch('http://manclaus.alwaysdata.net/accepter', {
+                    const response = await fetch('https://entreprises.startechnormandy.com/accepter', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json'
@@ -294,7 +294,7 @@ async function loadPropositions() {
             });
             refuserButton.addEventListener('click', async () => {
                 try {
-                    const response = await fetch('http://manclaus.alwaysdata.net/refuser', {
+                    const response = await fetch('https://entreprises.startechnormandy.com/refuser', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json'

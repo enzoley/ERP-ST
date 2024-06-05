@@ -39,14 +39,14 @@ function month3(mois: number) {
 
 async function loadEtu2() {
     try {
-        const reponseCompte = await fetch('http://manclaus.alwaysdata.net/check-login');
+        const reponseCompte = await fetch('https://entreprises.startechnormandy.com/check-login');
         const compteRes = await reponseCompte.json();
         if (!compteRes.loggedIn) {
             window.location.href = 'index.html';
             return;
         }
         const id = compteRes.user.id;
-        const response = await fetch('http://manclaus.alwaysdata.net/etu-ent', {
+        const response = await fetch('https://entreprises.startechnormandy.com/etu-ent', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -78,7 +78,7 @@ function loadSuiviEnt() {
     const etu = etuSelectorEnt.value;
     const etuName = etu.split(' ').join('');
     console.log(etuName);
-    fetch('http://manclaus.alwaysdata.net/suivi-etu', {
+    fetch('https://entreprises.startechnormandy.com/suivi-etu', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -141,7 +141,7 @@ ajoutBouton.addEventListener('click', async () => {
     const periode = inputPeriode.value;
     const text = inputText.value;
     try {
-        const response = await fetch('http://localhost:3000/update-suivi', {
+        const response = await fetch('https://entreprises.startechnormandy.com/update-suivi', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
