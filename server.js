@@ -552,7 +552,6 @@ app.post('/etu-ent', (req, res) => {
             });
         });
         l = await Promise.all(promises);
-        console.log(l);
         res.json(l);
     });
 });
@@ -711,7 +710,6 @@ app.post('/generate-pdf', (req, res) => {
 
 app.post('/visite-etu', (req, res) => {
     const { id } = req.body;
-    console.log(id);
     const sql = 'SELECT * FROM visites WHERE idEtu = ? AND accept = 1';
     db.query(sql, [id], (err, results) => {
         if (err) {
@@ -730,7 +728,6 @@ app.post('/visite-resp', (req, res) => {
             console.error('Erreur lors de l\'exécution de la requête :', err);
             return res.status(500).send('Erreur serveur');
         }
-        console.log(results);
         const sql = 'SELECT * FROM visites WHERE idEtu = ?';
         db.query(sql, [results[0].id], (err, results) => {
             if (err) {
@@ -908,7 +905,6 @@ app.get('/files', (req, res) => {
             if (fileName != null) {
                 const mimeType = file.mime_type;
                 const fileData = file.file_data;
-                console.log(fileName);
                 const fileDataBase64 = Buffer.from(fileData).toString('base64');
                 res.json({ filename: fileName, mimeType: mimeType, fileData: fileDataBase64 });
             } else {
