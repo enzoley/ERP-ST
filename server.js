@@ -59,16 +59,13 @@ app.use(session({
     cookie: { secure: false }
 }));
 
-const transporter = nodemailer.createTransport({
-    host: "smtp-mail.outlook.com",
-    secureConnection: false,
-    port: 587,
-    tls: {
-        ciphers: 'SSLv3'
-    },
+let transporter = nodemailer.createTransport({
+    host: 'smtp-ssl.alwaysdata.net',
+    port: 465,
+    secure: true,
     auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASSWORD
+        user: 'votre_utilisateur@domaine.com', // Votre adresse email Alwaysdata
+        pass: 'votre_mot_de_passe' // Votre mot de passe email Alwaysdata
     }
 });
 
