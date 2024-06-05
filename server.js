@@ -688,6 +688,57 @@ app.post('/generate-pdf', (req, res) => {
 
     doc.addPage();
 
+    const title3 = "Contacts";
+    doc.fontSize(30);
+    const title3Width = doc.widthOfString(title3);
+    const title3X = (doc.page.width - title3Width) / 2;
+    doc.text(title3, title3X, 50);
+    doc.moveDown(1);
+    doc.fontSize(12);
+    doc.text('Pour toute question vous pouvez contacter :', 40);
+
+    doc.moveDown(1);
+
+    doc.font('Helvetica-Bold');
+    doc.text('Standard :', 40);
+    doc.font('Helvetica');
+    doc.moveDown(0.5);
+    doc.text('starTech Normandy, 31 Boulevard de strasbourg, 61000 Alençon', 40);
+    doc.moveDown(0.5);
+    doc.text('02 33 80 87 50 / info@startechnormandy.com', 40);
+
+    doc.moveDown(1);
+
+    doc.font('Helvetica-Bold');
+    doc.text('Direction pédagogique :', 40);
+    doc.font('Helvetica');
+    doc.moveDown(0.5);
+    doc.text('Jérémie Guihard', 40);
+    doc.moveDown(0.5);
+    doc.text('07 67 14 33 72 / j.guihard@startechnormandy.com', 40);
+
+    doc.moveDown(1);
+
+    doc.font('Helvetica-Bold');
+    doc.text('Direction administrative :', 40);
+    doc.font('Helvetica');
+    doc.moveDown(0.5);
+    doc.text('Isabelle Potin', 40);
+    doc.moveDown(0.5);
+    doc.text('02 33 80 87 50 / i.potin@startechnormandy.com', 40);
+
+    doc.moveDown(1);
+
+    doc.font('Helvetica-Bold');
+    doc.text('Référente handicap :', 40);
+    doc.font('Helvetica');
+    doc.moveDown(0.5);
+    doc.text('Bertille Lemonnier', 40);
+    doc.moveDown(0.5);
+    doc.text('02 33 80 87 50 / bertille.lemonnier@startechnormandy.com', 40);
+
+    doc.addPage();
+
     const title2 = "Suivi de l'étudiant";
     doc.fontSize(30);
     const title2Width = doc.widthOfString(title2);
@@ -696,11 +747,13 @@ app.post('/generate-pdf', (req, res) => {
     doc.moveDown(1);
     doc.fontSize(12);
     l.forEach((item) => {
-        doc.text(`Mois: ${item.mois} ${item.annee}`, 40);
+        doc.font('Helvetica-Bold');
+        doc.text(`${item.mois} ${item.annee}`, 40);
+        doc.font('Helvetica');
         doc.moveDown(0.5);
-        doc.text(`Taches: ${item.taches}`, 40);
+        doc.text(`Taches : ${item.taches}`, 40);
         doc.moveDown(0.5);
-        doc.text(`Commentaires: ${item.commentaires}`, 40);
+        doc.text(`Commentaires : ${item.commentaires}`, 40);
         doc.moveDown(2);
 
     });
