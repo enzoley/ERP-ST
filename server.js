@@ -107,6 +107,25 @@ app.post('/register', (req, res) => {
             const sql = 'INSERT INTO users (situation, email, password, nom, prenom) VALUES (?, ?, ?, ?, ?)';
             db.query(sql, [situation, email, hashedPassword, nom.toLowerCase(), prenom.toLowerCase()], (err, result) => {
                 if (err) throw err;
+                const mailOptions = {
+                    from: `"${process.env.EMAIL_FROM_NAME}" <${process.env.EMAIL_USER}>`,
+                    to: email,
+                    subject: 'Création de votre compte de suivi',
+                    text: `Bonjour, Votre compte de suivi a été créé avec succès.
+Pour votre première connexion, veuillez cliquer sur mot de passe oublié en utilisant cet email pour créer votre mot de passe.
+Le site de suivi est accessible à l'adresse suivante : https://entreprises.startechnormandy.com
+Cordialement,
+L'équipe starTech Normandy`
+                };
+
+                transporter.sendMail(mailOptions, (err, info) => {
+                    if (err) {
+                        console.error('Error sending email:', err);
+                        return res.status(500).json({ message: 'Erreur serveur' });
+                    } else {
+                        console.log('Email sent:', info.response);
+                    }
+                });
                 res.json({ message: 'Register successful', user: { email: email } });
             });
         }
