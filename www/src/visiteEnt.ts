@@ -56,20 +56,32 @@ async function loadEtuV() {
             body: JSON.stringify({ idEnt: id })
         });
         const etudiants = await response.json();
-        etudiants.forEach((etu: string, index: number) => {
-            const option = document.createElement('option');
-            option.value = etu;
-            option.textContent = etu;
-            selectEtu.appendChild(option);
-        });
-        if (selectEtu.options.length > 0) {
-            selectEtu.options[0].selected = true;
+        if (etudiants.length != 0) {
+            etudiants.forEach((etu: string, index: number) => {
+                const option = document.createElement('option');
+                option.value = etu;
+                option.textContent = etu;
+                selectEtu.appendChild(option);
+            });
+            if (selectEtu.options.length > 0) {
+                selectEtu.options[0].selected = true;
+            }
+
+            loadVisites();
+            loadPropositions();
+        } else {
+            const div = document.createElement('div');
+            div.className = 'card';
+            div.innerHTML = `
+                <div class="mt-3">
+                <p class ="text-center">Aucune proposition de visite</p>
+                </div>
+                `;
+            propositionDiv.appendChild(div);
         }
     } catch (error) {
         console.error('Erreur lors du chargement des étudiants :', error);
     }
-    loadVisites();
-    loadPropositions();
 }
 
 function createGoogleCalendarLink({

@@ -70,20 +70,25 @@ async function loadEtu3() {
             body: JSON.stringify({ idResp: id })
         });
         const etudiants = await response.json();
-        etudiants.forEach((etu: string, index: number) => {
-            const option = document.createElement('option');
-            option.value = etu;
-            option.textContent = etu;
-            etuSelectResp.appendChild(option);
-        });
-        if (etuSelectResp.options.length > 0) {
-            etuSelectResp.options[0].selected = true;
+        if (etudiants.length != 0) {
+            etudiants.forEach((etu: string, index: number) => {
+                const option = document.createElement('option');
+                option.value = etu;
+                option.textContent = etu;
+                etuSelectResp.appendChild(option);
+            });
+            if (etuSelectResp.options.length > 0) {
+                etuSelectResp.options[0].selected = true;
+            }
+            loadVisiteResp();
+            loadFormResp("-1");
+        } else {
+            ajoutRDVButton.disabled = true;
         }
     } catch (error) {
         console.error(error);
     }
-    loadVisiteResp();
-    loadFormResp("-1");
+
 
 
 }

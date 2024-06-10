@@ -52,7 +52,7 @@ function verifyAuth() {
 
 }
 
-setInterval(verifyAuth, 100);
+verifyAuth();
 
 document.getElementById('logoutButton').addEventListener('click', async function (event) {
     event.preventDefault();

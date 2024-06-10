@@ -49,16 +49,18 @@ async function loadEtu() {
             body: JSON.stringify({ idResp: id })
         });
         const etudiants = await response.json();
-        etudiants.forEach((etu: string, index: number) => {
-            const option = document.createElement('option');
-            option.value = etu;
-            option.textContent = etu;
-            etuSelectorResp.appendChild(option);
-        });
-        if (etuSelectorResp.options.length > 0) {
-            etuSelectorResp.options[0].selected = true;
+        if (etudiants.length != 0) {
+            etudiants.forEach((etu: string, index: number) => {
+                const option = document.createElement('option');
+                option.value = etu;
+                option.textContent = etu;
+                etuSelectorResp.appendChild(option);
+            });
+            if (etuSelectorResp.options.length > 0) {
+                etuSelectorResp.options[0].selected = true;
+            }
+            loadSuiviResp();
         }
-        loadSuiviResp();
     } catch (error) {
         console.error('Erreur lors du chargement des étudiants :', error);
     }
