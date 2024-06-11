@@ -476,7 +476,15 @@ app.post('/delete-suivi', (req, res) => {
                         console.error('Erreur lors de l\'exécution de la requête :', err);
                         return res.status(500).send('Erreur serveur');
                     } else {
-                        res.json({ message: 'Suivi supprimé' });
+                        const sql4 = 'DELETE FROM visites WHERE idEtu = ?'
+                        db.query(sql4, [id], (err, result) => {
+                            if (err) {
+                                console.error('Erreur lors de l\'exécution de la requête :', err);
+                                return res.status(500).send('Erreur serveur');
+                            } else {
+                                res.json({ message: 'Suivi supprimé' });
+                            }
+                        });
                     }
                 });
             }
