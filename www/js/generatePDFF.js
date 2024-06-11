@@ -1,3 +1,5 @@
+const selectEtu = document.getElementById('selectEtu');
+
 function month5(mois) {
     switch (mois) {
         case 0:
@@ -31,28 +33,7 @@ function month5(mois) {
 
 document.getElementById('generateButton').addEventListener('click', async () => {
     try {
-        const reponseCompte = await fetch('/check-login');
-        const compteRes = await reponseCompte.json();
-
-        if (!compteRes.loggedIn) {
-            window.location.href = 'index.html';
-            return;
-        }
-
-        const email = compteRes.user.email;
-
-        const nameResponse = await fetch('https://entreprises.startechnormandy.com/get-user-nomprenom', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ email })
-        });
-
-        const data = await nameResponse.json();
-        const { nom, prenom } = data;
-        const name = `${nom}${prenom}`;
-
+        const name = selectEtu.options[selectEtu.selectedIndex].text.split(' ').join('');
         const response = await fetch('https://entreprises.startechnormandy.com/suivi-etu', {
             method: 'POST',
             headers: {
@@ -97,4 +78,3 @@ document.getElementById('generateButton').addEventListener('click', async () => 
         console.error('Error:', error);
     }
 });
-

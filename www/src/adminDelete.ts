@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     body: JSON.stringify({ id })
                 });
                 const data = await response.json();
-
+                console.log("test");
                 if (response.ok) {
                     alert('Suppression réussie');
                     window.location.reload();
