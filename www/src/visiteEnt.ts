@@ -66,7 +66,6 @@ async function loadEtuV() {
             if (selectEtu.options.length > 0) {
                 selectEtu.options[0].selected = true;
             }
-
             loadVisites();
             loadPropositions();
         } else {
