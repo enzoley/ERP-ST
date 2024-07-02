@@ -60,7 +60,7 @@ app.use(session({
 }));
 
 const transporter = nodemailer.createTransport({
-    host: "smtp-mail.outlook.com",
+    host: "smtp-suivistn.alwaysdata.net",
     secureConnection: false,
     port: 587,
     tls: {
@@ -114,7 +114,7 @@ app.post('/register', (req, res) => {
                     text: `Bonjour, Votre compte de suivi a été créé avec succès.
 Pour votre première connexion, veuillez cliquer sur mot de passe oublié en utilisant cet email pour créer votre mot de passe.
 Le site de suivi est accessible à l'adresse suivante : https://entreprises.startechnormandy.com
-Vous être enregistré en tant que : ${situation}
+Vous êtes enregistré en tant que : ${situation}
 Après avoir choisi votre mot de passe, vous pourrez vous connecter avec votre adresse email, votre mot de passe et en choisissant ${situation} dans le champs situation.
 Cordialement,
 L'équipe starTech Normandy`
