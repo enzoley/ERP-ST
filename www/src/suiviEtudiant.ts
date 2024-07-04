@@ -124,10 +124,10 @@ async function uploadFile(file: File, mois: number, annee: string): Promise<void
     formData.append('file', file);
     formData.append('name', name);
     formData.append('mois', mois.toString());
-    formData.append('annee', annee);
+    formData.append('annee', annee.toString());
 
     try {
-        const response = await fetch('/upload', {
+        const response = await fetch('https://entreprises.startechnormandy.com/upload', {
             method: 'POST',
             body: formData,
         });
