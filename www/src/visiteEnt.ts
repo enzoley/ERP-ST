@@ -297,7 +297,8 @@ async function loadPropositions() {
                         body: JSON.stringify({ id: propositionCour })
                     });
                     if (response.ok) {
-                        window.location.reload();
+                        loadVisites()
+                        loadPropositions()
                     }
                 } catch (error) {
                     console.error(error);
@@ -313,7 +314,8 @@ async function loadPropositions() {
                         body: JSON.stringify({ id: propositionCour })
                     });
                     if (response.ok) {
-                        window.location.reload();
+                        loadVisites()
+                        loadPropositions()
                     }
                 } catch (error) {
                     console.error(error);

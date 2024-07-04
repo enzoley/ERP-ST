@@ -161,5 +161,5 @@ ajoutBouton.addEventListener('click', async () => {
         console.error('Erreur :', error);
         alert('Une erreur est survenue. Veuillez réessayer.');
     }
-    window.location.reload();
+    loadSuiviEnt();
 });
