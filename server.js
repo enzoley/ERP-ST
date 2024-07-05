@@ -874,7 +874,30 @@ app.post('/ajout-visite-resp', (req, res) => {
                             console.error('Erreur lors de l\'exécution de la requête :', err);
                             return res.status(500).send('Erreur serveur');
                         }
-                        res.json({ message: 'Visite ajoutée' });
+                        const sq4 = 'SELECT email FROM users WHERE id = ?';
+                        db.query(sq4, [idEnt], (err, results) => {
+                            if (err) {
+                                console.error('Erreur lors de l\'exécution de la requête :', err);
+                                return res.status(500).send('Erreur serveur');
+                            }
+                            const email = results[0].email;
+                            const mailOptions = {
+                                from: `"${process.env.EMAIL_FROM_NAME}" <${process.env.EMAIL_USER}>`,
+                                to: email,
+                                subject: 'Nouvelle visite',
+                                text: `Vous avez une nouvelle visite à accepter`
+                            };
+
+                            transporter.sendMail(mailOptions, (err, info) => {
+                                if (err) {
+                                    console.error('Error sending email:', err);
+                                    return res.status(500).json({ message: 'Erreur serveur' });
+                                } else {
+                                    console.log('Email sent:', info.response);
+                                }
+                            });
+                            res.json({ message: 'Visite ajoutée' });
+                        });
                     });
                 }
             });
